@@ -13,13 +13,28 @@ import QRCode from "qrcode.react";
 import copy from "copy-to-clipboard/index";
 import { Stack } from "office-ui-fabric-react/lib/Stack";
 //import { TextField } from "office-ui-fabric-react/lib/TextField";
-import { CommandButton, IconButton, PrimaryButton } from "office-ui-fabric-react/lib/Button";
-import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
+import {
+  CommandButton,
+  IconButton,
+  PrimaryButton,
+} from "office-ui-fabric-react/lib/Button";
+import {
+  MessageBar,
+  MessageBarType,
+} from "office-ui-fabric-react/lib/MessageBar";
 //import imgNoResultTip from "../../assets/templates-no-result-tip.png";
 import qrCodeHelp from "../../../assets/qrcodehelp.png";
-import { CheckOpt, OptionOpt, SelectOpt } from "../WebAddinGenTpl/WebAddinSetPart";
+import {
+  CheckOpt,
+  OptionOpt,
+  SelectOpt,
+} from "../WebAddinGenTpl/WebAddinSetPart";
 import { handleFetch, handlePost, saveDocByte } from "../../WebAddinCommon";
-import { UploadDocContent, updateStatus, composeDocInsert } from "../../WebAddinCommon/UploadDocContent";
+import {
+  UploadDocContent,
+  updateStatus,
+  composeDocInsert,
+} from "../../WebAddinCommon/UploadDocContent";
 import confirmDialog from "../../WebAddinCommon/DynamicConfirm";
 import { Consumer } from "../../WebAddinContext";
 import { arrayBufferToBase64 } from "../../WebAddinCommon/UploadDocContent";
@@ -29,11 +44,11 @@ const Cookies = require("js-cookie");
 let NewData = {
   opserial: [4],
   ckserial: [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  demoopt: [1, 1, 1, 1]
+  demoopt: [1, 1, 1, 1],
 };
 
 let SvrData = NewData;
- 
+
 class WebAddinTplDetail extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +62,7 @@ class WebAddinTplDetail extends Component {
       curUser: { user_id: "" },
       tplData: { id: "" },
       mainInf: { SourceType: "", SchemaType: "", searchType: "1" },
-      addSchema: { id: "", ownerid: "" }
+      addSchema: { id: "", ownerid: "" },
     };
     this.getWebset = this.getWebset.bind(this);
   }
@@ -55,11 +70,11 @@ class WebAddinTplDetail extends Component {
     if (this.props.user_id !== "") {
       const data = {};
       data.user_id = this.props.user_id;
-      console.log("getwebset_user:",this.props.user_id)
+      console.log("getwebset_user:", this.props.user_id);
       data.type = "1";
       // console.log(JSON.stringify(data));
       handlePost(`${apiPublicPath}users/getUserWebOpt`, data).then(
-        result => {
+        (result) => {
           if (result.success) {
             NewData = result.data;
             SvrData = JSON.parse(JSON.stringify(NewData));
@@ -74,13 +89,16 @@ class WebAddinTplDetail extends Component {
   }
 
   UNSAFE_componentWillMount() {
-     console.log(" this.props.location:", this.props.location);
-    if (this.props.location.state !== undefined && this.props.location.tplData !== undefined) {
+    console.log(" this.props.location:", this.props.location);
+    if (
+      this.props.location.state !== undefined &&
+      this.props.location.tplData !== undefined
+    ) {
       this.setState({
         curUser: this.props.location.state.curUser,
         tplData: this.props.location.tplData,
         mainInf: this.props.location.mainInf,
-        ShowDemo: Cookies.get("showDemo") === "true"
+        ShowDemo: Cookies.get("showDemo") === "true",
       });
       //console.log("tplDetail_UNSAFE_componentWillMount:",this.state.ShowDemo);
     } else {
@@ -110,7 +128,6 @@ class WebAddinTplDetail extends Component {
 
     if (tpl_id !== undefined) {
       if (tpl_id !== "") {
-
         if (this.props.user_id !== undefined) {
           userappend = "&user_id=" + this.props.user_id;
         }
@@ -122,9 +139,14 @@ class WebAddinTplDetail extends Component {
           }
         }
 
-        let extend = "getinfs/getruletip?tpl_id=" + tpl_id + "&type=" + this.state.mainInf.searchType + userappend;
+        let extend =
+          "getinfs/getruletip?tpl_id=" +
+          tpl_id +
+          "&type=" +
+          this.state.mainInf.searchType +
+          userappend;
         handleFetch(`${apiPublicPath}${extend}`).then(
-          data => {
+          (data) => {
             //console.log("getinfs/getruletip?tpl_id", data);
             if ((data.success = true && data.msg[1] === "")) {
               //console.log("加载排版方案错误");
@@ -150,7 +172,7 @@ class WebAddinTplDetail extends Component {
             this.setState({
               ruletip: data.msg,
               FullID: tpl_id,
-              SamplePN: data.SamplePN
+              SamplePN: data.SamplePN,
             });
           },
           () => {}
@@ -166,15 +188,18 @@ class WebAddinTplDetail extends Component {
     composeDocInsert(state, tplData, xhr, fileName);
   }
   handleComposeClick = (state, showSignUp, tplData) => {
-    if ( state === undefined ||
+    if (
+      state === undefined ||
       state.curUser === undefined ||
-      state.curUser.user_id === "") {
+      state.curUser.user_id === ""
+    ) {
       showSignUp(); //直接打开登陆窗口
     } else {
       //上传处理//
       UploadDocContent(
         `${apiPublicPath}tools/composeFilesRecord`,
-        "0",state.curUser.user_id,
+        "0",
+        state.curUser.user_id,
         this.composeInsert.bind(this, state, tplData)
       );
     }
@@ -187,7 +212,7 @@ class WebAddinTplDetail extends Component {
       handleChange={this.handleCheckChange.bind(this)}
     />
   );
-  handleCheckChange = e => {
+  handleCheckChange = (e) => {
     NewData.ckserial[e.target.curindex] = Number(e.target.checked);
     //console.log(NewData.ckserial);
     //console.log(this.state);
@@ -201,7 +226,7 @@ class WebAddinTplDetail extends Component {
       handleChange={this.handleOptionChange.bind(this)}
     />
   );
-  handleOptionChange = e => {
+  handleOptionChange = (e) => {
     NewData.opserial[e.target.curindex] = e.target.value;
     //console.log(NewData.opserial);
     //console.log(this.state);
@@ -210,7 +235,7 @@ class WebAddinTplDetail extends Component {
     this.setState({ choice: "" });
   };
 
-  shareSchema = e => {
+  shareSchema = (e) => {
     console.log("Tpldetail_shareSchema_e:", e);
     const url = this.showUrl();
     confirmDialog.success({
@@ -232,11 +257,11 @@ class WebAddinTplDetail extends Component {
       onOk() {},
       onCancel() {
         copy(url);
-      }
+      },
     });
   };
 
-  shareAidocx = e => {
+  shareAidocx = (e) => {
     console.log("Tpldetail_shareAidocx_e:", e);
     const url = RootPath;
     confirmDialog.success({
@@ -258,13 +283,13 @@ class WebAddinTplDetail extends Component {
       onOk() {},
       onCancel() {
         copy(url);
-      }
+      },
     });
   };
 
   showUrl = () => {
     let url;
-    console.log("tpldetail_props:", this.props)
+    console.log("tpldetail_props:", this.props);
     let userid = this.props.user_id;
     const tplId = this.state.tplData.id; // 变量用 const 来定义；
 
@@ -295,22 +320,28 @@ class WebAddinTplDetail extends Component {
           data.user_id = this.props.user_id;
           data.tpl_id = this.state.tplData.id;
           data.share = 1;
-          handlePost(`${apiPublicPath}users/ShareUserTpl`, data).then(result => {
-            if (result.success === false) {
-              //提示没有打开选项？
-              //console.log("ShareUserTpl_result.msg:", result.msg);
+          handlePost(`${apiPublicPath}users/ShareUserTpl`, data).then(
+            (result) => {
+              if (result.success === false) {
+                //提示没有打开选项？
+                //console.log("ShareUserTpl_result.msg:", result.msg);
+              }
             }
-          });
+          );
         }
       }
       return title + "，扫码进入：";
     }
   };
 
-  handleSaveSetting = e => {
+  handleSaveSetting = (e) => {
     console.log("handleSaveSetting_e", e);
     try {
-      Cookies.set("ComposeSet", NewData.ckserial.join("") + NewData.opserial.join(""), { expires: 365 });
+      Cookies.set(
+        "ComposeSet",
+        NewData.ckserial.join("") + NewData.opserial.join(""),
+        { expires: 365 }
+      );
       let docIndex = NewData.demoopt[2];
       if (docIndex === undefined) {
         docIndex = 1;
@@ -324,13 +355,13 @@ class WebAddinTplDetail extends Component {
       DialogAlert.success({
         title: "成功保存排版设置",
         content: "保存有效期1年！",
-        time: 2000
+        time: 2000,
       });
     } catch (err) {
       DialogAlert.success({
         title: "保存排版设置失败",
         content: "可能是读写Cookie权限不够导致保存排版设置失败！",
-        time: 2000
+        time: 2000,
       });
     }
   };
@@ -359,7 +390,10 @@ class WebAddinTplDetail extends Component {
 
   addDirect() {
     console.log("WebAddinSchema_addDirect_start:", this.state.addSchema.id);
-    console.log("WebAddinSchema_addDirect_start_this.props.user_id:", this.props.user_id);
+    console.log(
+      "WebAddinSchema_addDirect_start_this.props.user_id:",
+      this.props.user_id
+    );
     if (this.props.user_id !== "" && this.state.addSchema.id !== "") {
       let tplId = this.state.addSchema.id;
       const _history = this.props.history;
@@ -372,7 +406,7 @@ class WebAddinTplDetail extends Component {
       data.user_id = this.props.user_id;
       data.tpl_id = tplId;
 
-      handlePost(`${apiPublicPath}users/tplCopy`, data).then(result => {
+      handlePost(`${apiPublicPath}users/tplCopy`, data).then((result) => {
         if (result.success === true) {
           //console.log("addDirect_props.history:", this.props.history);
           confirmDialog.success({
@@ -383,20 +417,20 @@ class WebAddinTplDetail extends Component {
             onOk() {
               _history.push({ pathname: "/Compose/genTpl", state: _state });
             },
-            onCancel() {}
+            onCancel() {},
           });
         } else {
           //如果是没有登录的话要启动登录窗口。
           DialogAlert.success({
             title: "加入排版方案失败",
             content: result.msg,
-            time: 2000
+            time: 2000,
           });
           _history.push("/");
         }
       });
       this.setState({
-        addSchema: { id: "", ownerid: "" }
+        addSchema: { id: "", ownerid: "" },
       });
     }
   } // 登录后，如果点击了加入个人中心直接提示加入成功了，如果没有登陆，那么点击后出现登录，如果登录不成功或者取消什么的。
@@ -419,31 +453,36 @@ class WebAddinTplDetail extends Component {
       let errTitle = "获取模板失败！";
       if (action === "1") {
       }
-      handlePost(`${apiPublicPath}getinfs/getInsertSource`, data).then(result => {
-        if (result.success === true) {
-          //调用offcie webapi
-          console.log("InsertSource_path:", result.msg);
-          // var id = "Base64DocxFile.txt";
-          let url = `${apiPublicPath}getinfs/getInsertSource/insertResFile?destFile=` + result.msg + "&destId=" + tplId;
-          let xhr = new XMLHttpRequest();
-          
-          // xmlHttp.withCredentials = true;
-          xhr.onreadystatechange = function () {
-            saveDocByte(result.fileName, xhr,2);
-            
-          };
-          xhr.open("GET", url, true); //同步方式请求
-          xhr.responseType = "arraybuffer";
-          xhr.send();
-        } else {
-          //如果是没有登录的话要启动登录窗口。
-          DialogAlert.success({
-            title: errTitle,
-            content: result.msg,
-            time: 2000
-          });
+      handlePost(`${apiPublicPath}getinfs/getInsertSource`, data).then(
+        (result) => {
+          if (result.success === true) {
+            //调用offcie webapi
+            console.log("InsertSource_path:", result.msg);
+            // var id = "Base64DocxFile.txt";
+            let url =
+              `${apiPublicPath}getinfs/getInsertSource/insertResFile?destFile=` +
+              result.msg +
+              "&destId=" +
+              tplId;
+            let xhr = new XMLHttpRequest();
+
+            // xmlHttp.withCredentials = true;
+            xhr.onreadystatechange = function () {
+              saveDocByte(result.fileName, xhr, 2);
+            };
+            xhr.open("GET", url, true); //同步方式请求
+            xhr.responseType = "arraybuffer";
+            xhr.send();
+          } else {
+            //如果是没有登录的话要启动登录窗口。
+            DialogAlert.success({
+              title: errTitle,
+              content: result.msg,
+              time: 2000,
+            });
+          }
         }
-      });
+      );
     }
   };
   handleMoreClick = () => {
@@ -474,25 +513,25 @@ class WebAddinTplDetail extends Component {
           key: "emailMessage",
           text: "分享排版方案",
           iconProps: { iconName: "share" },
-          onClick: this.shareSchema
+          onClick: this.shareSchema,
         },
         {
           key: "calendarEvent",
           text: "分享筷子文档",
           iconProps: { iconName: "PageShared" },
-          onClick: this.shareAidocx
-        }
-      ]
+          onClick: this.shareAidocx,
+        },
+      ],
     };
 
     const addIcon = { iconName: "Add" };
     const detailStyle = {
-      root: { backgroundColor: "#f3f2f1", marginTop: "10px" }
+      root: { backgroundColor: "#f3f2f1", marginTop: "10px" },
     };
     let demoPic = "";
     const columnProps = {
       tokens: { childrenGap: 15 },
-      styles: { root: { width: 300 } }
+      styles: { root: { width: 300 } },
     };
     if (this.state.ShowDemo === true) {
       //读取网络上的提示信息，显示反馈
@@ -516,7 +555,10 @@ class WebAddinTplDetail extends Component {
             </Stack>
           </Stack>
           <div className={styles["demo-div"]}>
-            <ImageViewer FullID={this.state.FullID} SamplePN={this.state.SamplePN} />
+            <ImageViewer
+              FullID={this.state.FullID}
+              SamplePN={this.state.SamplePN}
+            />
           </div>
         </div>
       );
@@ -528,13 +570,13 @@ class WebAddinTplDetail extends Component {
         display: "flex",
         justifyContent: "center",
         alignItems: "left",
-        flexShrink: "1"
-      }
+        flexShrink: "1",
+      },
     };
     const stackItemStyles = {
       root: {
-        padding: 2
-      }
+        padding: 2,
+      },
     };
     const moreIcon = { iconName: "DoubleChevronDown" };
     const lessIcon = { iconName: "DoubleChevronUp" };
@@ -542,13 +584,24 @@ class WebAddinTplDetail extends Component {
     const showHide = (
       <div style={{ display: "inline-flex" }}>
         <div style={{ display: "inline-block" }}>
-          <span style={{ fontSize: "14px", textAlign: "center", display: "flex", height: "22px" }}>
+          <span
+            style={{
+              fontSize: "14px",
+              textAlign: "center",
+              display: "flex",
+              height: "22px",
+            }}
+          >
             <IconButton
               iconProps={this.state.ShowDemo ? lessIcon : moreIcon}
               onClick={this.handleMoreClick.bind(this, this.state)}
               ariaLabel="更多"
             />
-            <IconButton iconProps={closeIcon} onClick={this.handleClearClick} ariaLabel="关闭" />
+            <IconButton
+              iconProps={closeIcon}
+              onClick={this.handleClearClick}
+              ariaLabel="关闭"
+            />
           </span>
         </div>
       </div>
@@ -569,29 +622,59 @@ class WebAddinTplDetail extends Component {
                 background: "#f3f2f1",
                 display: "flex",
                 alignItems: "stretch",
-                flexShrink: "1"
-              }
+                flexShrink: "1",
+              },
             }}
             tokens={{ childrenGap: 12 }}
           >
             <Stack.Item align="left" styles={stackItemStyles}>
-              <div style={{ display: "inline-flex", textAlign: "left", fontSize: "15px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  textAlign: "left",
+                  fontSize: "15px",
+                }}
+              >
                 <b> {this.state.tplData.title}</b>
               </div>
             </Stack.Item>
             <Stack.Item align="center" styles={stackItemStyles}>
-              <div style={{ display: "inline-flex", textAlign: "center", fontSize: "16px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  textAlign: "center",
+                  fontSize: "16px",
+                }}
+              >
                 <b>来源：</b>
               </div>
-              <div style={{ display: "inline-flex", textAlign: "center", fontSize: "15px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  textAlign: "center",
+                  fontSize: "15px",
+                }}
+              >
                 {this.state.mainInf.SourceType}
               </div>
             </Stack.Item>
             <Stack.Item align="end" styles={stackItemStyles}>
-              <div style={{ display: "inline-flex", textAlign: "right", fontSize: "16px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  textAlign: "right",
+                  fontSize: "16px",
+                }}
+              >
                 <b>类型：</b>
               </div>
-              <div style={{ display: "inline-flex", textAlign: "right", fontSize: "15px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  textAlign: "right",
+                  fontSize: "15px",
+                }}
+              >
                 {this.state.mainInf.SchemaType}
               </div>
             </Stack.Item>
@@ -604,52 +687,69 @@ class WebAddinTplDetail extends Component {
     let OptionIndex = 0;
     const hideopt = false;
     const checktip = [
-      ["智能修正中英文标点符号，适合于文档标点书写不规范，有一定风险", "修正标点"],
+      [
+        "智能修正中英文标点符号，适合于文档标点书写不规范，有一定风险",
+        "修正标点",
+      ],
       ["智能清理被误用的空格区域，有一定风险", "清理空格"],
       [
         "将用尾注标示的参考文献转换为文本化的参考文献，适合最终定稿时，如果排版后还需要编辑，请不要选择该选项",
-        "尾注转文本"
+        "尾注转文本",
       ],
       [
         "套用模板的页面大小，页眉页脚设置，并用模板中的样式来控制格式，否则按照排版方案中的相关设置处理，建议选中",
-        "模板优先"
+        "模板优先",
       ],
       [
         "清理未使用的样式，左对齐和分散对齐转两端对齐，孤行控制，首标点压缩，居中不缩进，样式更新，封面和封尾无大纲级别等，建议选中",
-        "美化优化"
+        "美化优化",
       ],
-      ["自动分析内部知识链接，包括标题、图、表和公式编号，以及标题内容，图、表说明内容", "建立内部知识链接"],
+      [
+        "自动分析内部知识链接，包括标题、图、表和公式编号，以及标题内容，图、表说明内容",
+        "建立内部知识链接",
+      ],
       ["将EQ域、Word公式和MathType公式转换为文本公式", "公式文本化"],
-      ["将图片白色背景透明化处理", "图片透明化"]
+      ["将图片白色背景透明化处理", "图片透明化"],
     ];
-    const optiontip = [["根据文档情况，选择不同等清理模式，排版效果不满意时请更换模式尝试", "格式清理：　"]];
+    const optiontip = [
+      [
+        "根据文档情况，选择不同等清理模式，排版效果不满意时请更换模式尝试",
+        "格式清理：　",
+      ],
+    ];
     const optionarr = [
       [
-        { value: "1", text: "忽略", tip: "不清理现有文档格式，仅仅统一规范文档特殊位置，文档格式已经很规范时适用" },
+        {
+          value: "1",
+          text: "忽略",
+          tip: "不清理现有文档格式，仅仅统一规范文档特殊位置，文档格式已经很规范时适用",
+        },
         {
           value: "2",
           text: "默认",
-          tip: "根据默认的配置文件进行格式清理，要修改具体选项实行不同的清理效果，请加入方案到个人中心进行修改"
+          tip: "根据默认的配置文件进行格式清理，要修改具体选项实行不同的清理效果，请加入方案到个人中心进行修改",
         },
         {
           value: "3",
           text: "轻度",
-          tip:
-            "基于段落编辑特征，保留主要字符格式，删除主要段落格式，保留作过标题的或者短段落等特殊位置的属性，文档比较规范时适用"
+          tip: "基于段落编辑特征，保留主要字符格式，删除主要段落格式，保留作过标题的或者短段落等特殊位置的属性，文档比较规范时适用",
         },
-        { value: "4", text: "重度", tip: "除了特殊位置外，删除主要字符格式，删除主要段落格式，文档格式比较乱时适用" },
+        {
+          value: "4",
+          text: "重度",
+          tip: "除了特殊位置外，删除主要字符格式，删除主要段落格式，文档格式比较乱时适用",
+        },
         {
           value: "5",
           text: "极度",
-          tip:
-            "除了文本控件区域、上下标、着重符、下划线和隐藏属性外，删除所有字符格式，删除所有段落格式，文档格式乱时适用"
+          tip: "除了文本控件区域、上下标、着重符、下划线和隐藏属性外，删除所有字符格式，删除所有段落格式，文档格式乱时适用",
         },
         {
           value: "6",
           text: "全部",
-          tip: "删除上下标以外的所有字符格式，删除所有段落格式和表格样式，文档格式很乱时适用"
-        }
-      ]
+          tip: "删除上下标以外的所有字符格式，删除所有段落格式和表格样式，文档格式很乱时适用",
+        },
+      ],
     ];
     const ButtonStyles = {
       root: {
@@ -660,18 +760,20 @@ class WebAddinTplDetail extends Component {
         minWidth: 150,
         maxWidth: 586,
         width: "90%",
-        height: 60
-      }
+        height: 60,
+      },
     };
 
     const demoopttip = [
       [
-        "标准版不带审阅和批注，审阅版分类标注了排版过程中修改的位置和文档格式或者编号中存在的问题，无样式版本不通过样式进行排版"
-      ]
+        "标准版不带审阅和批注，审阅版分类标注了排版过程中修改的位置和文档格式或者编号中存在的问题，无样式版本不通过样式进行排版",
+      ],
     ];
     const demooptList = [["标准版", "审阅版", "无样式版"]];
     const calloutProps = { gapSpace: 0 };
-    const hostStyles = { root: { display: "inline-block", marginTop: "10px", paddingRight: "5px" } };
+    const hostStyles = {
+      root: { display: "inline-block", marginTop: "10px", paddingRight: "5px" },
+    };
     let demooptIndex = 0;
     return (
       <Consumer>
@@ -682,13 +784,22 @@ class WebAddinTplDetail extends Component {
               <div className="checkTop">
                 <PrimaryButton
                   styles={ButtonStyles}
-                  onClick={this.handleComposeClick.bind(this, state, showSignUp, this.state.tplData)}
+                  onClick={this.handleComposeClick.bind(
+                    this,
+                    state,
+                    showSignUp,
+                    this.state.tplData
+                  )}
                 >
                   排版当前文档
                 </PrimaryButton>
                 <Stack styles={stackStyles} tokens={stackTokens}>
                   <div style={{ align: "center" }}>
-                    {this.genOptionOpt(optiontip[OptionIndex], optionarr[OptionIndex], OptionIndex++)}
+                    {this.genOptionOpt(
+                      optiontip[OptionIndex],
+                      optionarr[OptionIndex],
+                      OptionIndex++
+                    )}
                   </div>
                   <div style={{ align: "center" }}>
                     <div style={{ display: "inline-block" }}>
@@ -707,8 +818,15 @@ class WebAddinTplDetail extends Component {
                       {this.genCheckOpt(checktip[checkIndex], checkIndex++)}
                     </div>
                   </div>
-                  <Stack.Item align="center" verticalAlignment="center" styles={stackItemStyles}>
-                    <div className={styles["check-info-check"]} hidden={!hideopt}>
+                  <Stack.Item
+                    align="center"
+                    verticalAlignment="center"
+                    styles={stackItemStyles}
+                  >
+                    <div
+                      className={styles["check-info-check"]}
+                      hidden={!hideopt}
+                    >
                       {this.genCheckOpt(checktip[checkIndex], checkIndex++)}
                       {this.genCheckOpt(checktip[checkIndex], checkIndex++)}
                       {this.genCheckOpt(checktip[checkIndex], checkIndex++)}
@@ -727,16 +845,20 @@ class WebAddinTplDetail extends Component {
                     fontSize: "14px",
                   }}
                 >
-                    版本：
+                  版本：
                   <div
                     style={{
                       display: "inline-block",
                       paddingTop: "12px",
                       fontSize: "14px",
-                      width: "80px"
+                      width: "80px",
                     }}
                   >
-                    {this.gendemoopt(demoopttip[demooptIndex], demooptList[demooptIndex], demooptIndex++)}
+                    {this.gendemoopt(
+                      demoopttip[demooptIndex],
+                      demooptList[demooptIndex],
+                      demooptIndex++
+                    )}
                   </div>
                 </div>
                 <TooltipHost
@@ -770,7 +892,11 @@ class WebAddinTplDetail extends Component {
                   calloutProps={calloutProps}
                   styles={hostStyles}
                 >
-                  <CommandButton iconProps={addIcon} text="分享" menuProps={menuProps} />
+                  <CommandButton
+                    iconProps={addIcon}
+                    text="分享"
+                    menuProps={menuProps}
+                  />
                 </TooltipHost>
                 <TooltipHost
                   content={"保存为不进入方案详情界面时使用的排版（本地）设置"}
@@ -778,7 +904,11 @@ class WebAddinTplDetail extends Component {
                   calloutProps={calloutProps}
                   styles={hostStyles}
                 >
-                  <CommandButton onClick={this.handleSaveSetting} iconProps={{ iconName: "SaveTemplate" }} text="" />
+                  <CommandButton
+                    onClick={this.handleSaveSetting}
+                    iconProps={{ iconName: "SaveTemplate" }}
+                    text=""
+                  />
                 </TooltipHost>
                 <TooltipHost
                   content={"加入个人中心方便对原排版方案进行修改"}
@@ -787,7 +917,12 @@ class WebAddinTplDetail extends Component {
                   styles={hostStyles}
                 >
                   <CommandButton
-                    onClick={this.handleAddSchema.bind(this, showSignUp, state, this.state.tplData)}
+                    onClick={this.handleAddSchema.bind(
+                      this,
+                      showSignUp,
+                      state,
+                      this.state.tplData
+                    )}
                     iconProps={{ iconName: "ReminderPerson" }}
                   />
                 </TooltipHost>
@@ -795,7 +930,9 @@ class WebAddinTplDetail extends Component {
               {this.state.choice === "block" && <BlockedDetail />}
             </div>
 
-            <div className="checkOpt">{this.state.choice === "block" && demoPic}</div>
+            <div className="checkOpt">
+              {this.state.choice === "block" && demoPic}
+            </div>
           </div>
         )}
       </Consumer>
@@ -803,21 +940,13 @@ class WebAddinTplDetail extends Component {
   }
 }
 
-const mapState = state => {
- 
+const mapState = (state) => {
   return {
     curUser: state.current,
-    user_id:  state.current.user_id ,
-    isModalVisible: state.modalVisible
+    user_id: state.current.user_id,
+    isModalVisible: state.modalVisible,
   };
 };
-const mapDispatch = {
-    
-};
+const mapDispatch = {};
 
-export default connect(
-  mapState,
-  mapDispatch
-)(WebAddinTplDetail);
- 
- 
+export default connect(mapState, mapDispatch)(WebAddinTplDetail);

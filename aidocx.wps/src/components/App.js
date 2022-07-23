@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
-import React from 'react';
-import ribbon from './ribbon';
+import React from "react";
+import ribbon from "./ribbon";
 import "./App.scss";
 import { connect } from "react-redux";
 import Loadable from "react-loadable";
@@ -8,15 +8,20 @@ import { Provider } from "./WebAddinContext";
 import WebAddinSignInOut from "./WebAddinSignInOut";
 //import Relogin from "./WebAddinReglogin";
 import DialogAlert from "./WebAddinCommon/DynamicModal";
-import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 //import { Dialog, DialogType, DialogFooter } from "office-ui-fabric-react/lib/Dialog";
 import { apiPublicPath } from "../settings";
 import { handlePost, handleFetch } from "./WebAddinCommon";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
-import { checklogin  } from "../actions";
+import { checklogin } from "../actions";
 const md5 = require("js-md5");
 const Cookies = require("js-cookie");
-initializeIcons(); 
+initializeIcons();
 /*
               <Route path="/OtherFun" component={WebAddinOtherFun} />
               <Route path="/UserCenter/:id" component={WebAddinUserCenter} />
@@ -33,7 +38,8 @@ const loadingComponent = (props) => {
     return (
       <div align="center" marginTop="50px" marginBotton="50px">
         <h2>
-          对不起，加载遇到错误，请刷新界面！<button onClick={props.retry}>刷新</button>
+          对不起，加载遇到错误，请刷新界面！
+          <button onClick={props.retry}>刷新</button>
         </h2>
       </div>
     );
@@ -41,7 +47,8 @@ const loadingComponent = (props) => {
     return (
       <div align="center" marginTop="50px" marginBotton="50px">
         <h2>
-          对不起，加载超时，请刷新界面！ <button onClick={props.retry}>重试</button>
+          对不起，加载超时，请刷新界面！{" "}
+          <button onClick={props.retry}>重试</button>
         </h2>
       </div>
     );
@@ -84,12 +91,12 @@ const WebAddinCompose = Loadable({
 });
 
 export const fillFinanceTable = Loadable({
-  loader: () => import("./WebAddinWriter/WriteComponents/pages/fillFinanceTable"),
+  loader: () =>
+    import("./WebAddinWriter/WriteComponents/pages/fillFinanceTable"),
   loading: loadingComponent,
   delay: 1500,
   timeout: 10000,
 });
-
 
 export const WebAddinTemplate = Loadable({
   loader: () => import("./WebAddinCompose/WebAddinTemplate"),
@@ -110,7 +117,7 @@ export const WebAddinGenTpl = Loadable({
   delay: 1500,
   timeout: 10000,
 });
- 
+
 export const WebAddinWriterFillTable = Loadable({
   loader: () => import("./WebAddinWriter/WriteComponents/pages/fillTable"),
   loading: loadingComponent,
@@ -120,6 +127,12 @@ export const WebAddinWriterFillTable = Loadable({
 
 export const WebAddinWriterRepository = Loadable({
   loader: () => import("./WebAddinWriter/WriteComponents/pages/Repository"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinWriterContentLib = Loadable({
+  loader: () => import("./WebAddinWriter/WriteComponents/pages/contentLib"),
   loading: loadingComponent,
   delay: 1500,
   timeout: 10000,
@@ -176,7 +189,6 @@ const MoblieResetPsw = Loadable({
 });
 */
 
-
 // function Str2Uint16(str){
 //   //假设字符串”abc“ length=3,使用16位，则每一个字母占据2字节，总字节为length乘以2
 //   var arraybuffer =new ArrayBuffer(str.length*2);
@@ -185,7 +197,7 @@ const MoblieResetPsw = Loadable({
 //       view[i] = str.charCodeAt(i);
 //   }
 //   return view;
-// }   
+// }
 
 // function Str2Uint8(str){
 //   //假设字符串”abc“ length=3,使用16位，则每一个字母占据2字节，总字节为length乘以2
@@ -195,8 +207,8 @@ const MoblieResetPsw = Loadable({
 //       view[i] = str.charCodeAt(i);
 //   }
 //   return view;
-// }    
- 
+// }
+
 // export function readwrite() {
 
 //     let data = wps.FileSystem.readAsBinaryString("d:\\1.docx")
@@ -214,8 +226,8 @@ const MoblieResetPsw = Loadable({
 //     });
 //     let file = new window.File([blob], "lite.docx", {type: blob.type})
 //     //wps.alert("blob.size"+file.size);
-//     console.log("file:",file); 
-//     console.log("msSaveOrOpenBlob:",navigator); 
+//     console.log("file:",file);
+//     console.log("msSaveOrOpenBlob:",navigator);
 //     //wps.FileSystem.writeAsBinaryString("d:\\2.docx",data)
 //   let newName= "d:\\2.docx"
 
@@ -227,11 +239,11 @@ const MoblieResetPsw = Loadable({
 //       wps.FileSystem.writeAsBinaryString(newName,this.result);
 //       console.log("this.result");
 //   }
-  
+
 //   if (navigator.msSaveOrOpenBlob) {
-    
+
 //     navigator.msSaveOrOpenBlob(blob, newName);
-    
+
 //   } else {
 //     let temp_link = document.createElement('a');
 //     let evt = document.createEvent("HTMLEvents");
@@ -255,7 +267,6 @@ export function arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
- 
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -264,16 +275,14 @@ class App extends React.Component {
     console.log("init ribbon");
     window.ribbon = ribbon;
   }
-  
+
   componentDidUpdate(newPros, newState) {
     //console.log("trigger:componentDidUpdate");
-   // console.log("app_componentDidUpdate", this.props.curUser);
-
-
+    // console.log("app_componentDidUpdate", this.props.curUser);
   }
   componentDidMount() {
-    if (this.props.user_id===undefined){
-      console.log("app_componentDidMount")
+    if (this.props.user_id === undefined) {
+      console.log("app_componentDidMount");
       this.props.checklogin();
     }
 
@@ -300,9 +309,8 @@ class App extends React.Component {
       console.log("app_componentDidMount_this.props.curUser", this.props.curUser);
       console.log("app_componentDidMount_state", this.state);
       */
-     
   }
-    
+
   selectData = (e) => {
     this.setState({ SelectID: e });
     console.log("selectData_e", e);
@@ -310,25 +318,24 @@ class App extends React.Component {
     console.log("app_componentDidMount_state", this.state);
     var Days = 30;
     var exp = new Date();
-    exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    Cookies.set("FinanceYear",e);
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+    Cookies.set("FinanceYear", e);
   };
   useData = (e) => {
     console.log("app_componentDidMount_this.props.curUser", this.props.curUser);
     console.log("app_componentDidMount_state", this.state);
-    console.log("read cookie",Cookies.get("FinanceYear"))
+    console.log("read cookie", Cookies.get("FinanceYear"));
   };
   render() {
     //如果在浏览器打开网页，那么会显示下面内容
     //之前的结构就不修改了
     return (
-      
       <div className="App">
         <Provider
           value={{
             state: this.state,
             selectData: this.selectData,
-            useData:this.useData
+            useData: this.useData,
           }}
         >
           <Router>
@@ -342,28 +349,21 @@ class App extends React.Component {
             </Switch>
           </Router>
           <WebAddinSignInOut />
-         
-          </Provider>
+        </Provider>
       </div>
     );
   }
 }
- 
 
-const mapState = state => {
- 
+const mapState = (state) => {
   return {
     curUser: state.current,
-    user_id:  state.current.user_id ,
-    isModalVisible: state.modalVisible
+    user_id: state.current.user_id,
+    isModalVisible: state.modalVisible,
   };
 };
 const mapDispatch = {
   checklogin,
 };
 
-export default connect(
-  mapState,
-  mapDispatch
-)(App);
- 
+export default connect(mapState, mapDispatch)(App);

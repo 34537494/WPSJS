@@ -6,12 +6,14 @@ import { handlePost } from "../../../../WebAddinCommon";
 import { GetRealDataOfYear, ConvertJsonToTreeOfFinance, GetRealDataOfFinance } from "../../../../../sources/RepositoryUtils";
 import { apiWritePath } from "../../../../../settings";
 import { Consumer } from "../../../../../components/WebAddinContext";
+import { connect } from "react-redux";
+import { checkfinanceyear  } from "../../../../../actions";
 // const { Content } = Layout;
 // const locationArr = new Array();
 var locationTable = [];
 var numData = [];
 /* global wps:false */
-
+ 
 var checkedIDs = [];
 const onSelect = (selectedKeys, info) => {
   let keyToPosition = {}
@@ -47,6 +49,7 @@ class detialTaskpane extends Component {
     super(props);
     this.state = {
       treeData: this.reloaddata(),
+      timer:null
     };
 
     console.log("finace table ini:",this.state)
@@ -54,7 +57,28 @@ class detialTaskpane extends Component {
 
   UNSAFE_componentWillMount() {
     console.log("filltable_this.props.location:", this.props.location);
+   
  }
+ 
+ componentWillUnmount() {
+  if(this.state.timer!= null) {
+
+    clearInterval(this.state.timer);
+    
+    }
+}
+ 
+ componentDidMount() {
+   console.log("this.props.financeyears_componentDidMount",this.props.financeyears)
+  
+  this.state.timer=setInterval(()=>{
+    //需要定时执行的方法
+   // if (this.props.financeyears===false){
+      console.log("fillfinancetable_componentDidMount")
+      this.props.checkfinanceyear();
+   // }
+    }, 1000)
+}
 
   reloaddata = (state,useData) => {
     console.log("filltable_this.props.location:", this.props.location);
@@ -89,7 +113,7 @@ class detialTaskpane extends Component {
     },
       error => { });
   }
-
+  
   insertdata = (state, selectData,checkedKeys) => {
     console.log("checkedkeys",checkedIDs);
     console.log("state",state);
@@ -152,7 +176,10 @@ class detialTaskpane extends Component {
     //     error => { });
     // }
   }
-
+  checkyears = () => {
+    this.props.checkfinanceyear();
+    console.log("this.props.financeyears：",this.props.financeyears)
+  }
   render() {
     // const columns = [
     //   {
@@ -209,6 +236,8 @@ class detialTaskpane extends Component {
       {({ state,useData, selectData }) => (
       <div>
         <h2>报表信息</h2>
+        <div>{this.props.financeyears}</div>
+         
         {/* <Table
           rowSelection={rowSelection}
           columns={columns}
@@ -227,6 +256,7 @@ class detialTaskpane extends Component {
         </Button> */}
         <Button onClick={this.insertdata.bind(this,state,selectData)}>插入</Button>
         <Button onClick={this.reloaddata.bind(this,state,useData)}>刷新</Button>
+        <Button onClick={this.checkyears}>測試</Button>
         <br />
         <Tree
           checkable
@@ -241,4 +271,20 @@ class detialTaskpane extends Component {
   }
 }
 
-export default detialTaskpane;
+
+const mapState = state => {
+  return {
+    curUser: state.current,
+    user_id:  state.current.user_id ,
+    financeyears: state.financeyears
+  };
+};
+const mapDispatch = {
+  checkfinanceyear,
+};
+
+export default connect(
+  mapState,
+  mapDispatch
+)(detialTaskpane);
+ 

@@ -30,11 +30,11 @@ class Repository extends Component {
   }
 
   reloaddata = (state, selectData) => {
-    console.log("state",state);
-    console.log("selectData",selectData);
-    if (selectData!== undefined){
-     // selectData("getTextRepositoryTree");
-  }
+    console.log("state", state);
+    console.log("selectData", selectData);
+    if (selectData !== undefined) {
+      // selectData("getTextRepositoryTree");
+    }
     const Company = {};
     Company.公司ID = 1;
     handlePost(`${apiWritePath}getinf/getTextRepositoryTree`, Company).then(
@@ -42,13 +42,13 @@ class Repository extends Component {
         console.log("get-Repository-tree-result:", result);
         if (result.success === true) {
           //加载数据到tree中
-         // console.log(result);
+          // console.log(result);
           let realdata = GetRealData(result);
           //console.log("realdata", realdata);
-          var treeData = ConvertJsonToTree(realdata,"");
+          var treeData = ConvertJsonToTree(realdata, "");
           this.setState({
             treeData: treeData,
-            fullData: realdata
+            fullData: realdata,
           });
         } else {
         }
@@ -59,10 +59,10 @@ class Repository extends Component {
   };
 
   insertdata = () => {
-    console.log("checkedIDs bef:",checkedIDs)
+    console.log("checkedIDs bef:", checkedIDs);
     for (var id in checkedIDs) {
-     // console.log("id:", id);
-     // console.log("checkedIDs[id]:", checkedIDs[id]);
+      // console.log("id:", id);
+      // console.log("checkedIDs[id]:", checkedIDs[id]);
       var data = {};
       data.公司ID = 1;
       data.文本元编号 = checkedIDs[id];
@@ -73,7 +73,7 @@ class Repository extends Component {
       ).then(
         (result) => {
           // this.props.history.push("/");
-        //  console.log("get-Repository-tree-result:", result);
+          //  console.log("get-Repository-tree-result:", result);
           if (result.success === true) {
             //插入数据到wps中
             console.log(
@@ -94,42 +94,38 @@ class Repository extends Component {
     }
   };
   onSearch = (value) => {
-   // console.log("search key:",value);
+    // console.log("search key:",value);
     //console.log("this.state.realdata:", this.state.fullData);
-          this.setState({
-            treeData: ConvertJsonToTree(this.state.fullData,value),
-          });
+    this.setState({
+      treeData: ConvertJsonToTree(this.state.fullData, value),
+    });
   };
   render() {
-   
-    
     return (
-
       <Consumer>
-      {({ state, selectData }) => (
+        {({ state, selectData }) => (
           <div style={{ margin: "10px 10px 50px 10px", padding: "10px" }}>
-          <h2>内容仓库</h2>
-          <Search
-            placeholder="请输入要搜索内容"
-            allowClear
-            onSearch={this.onSearch}
-          />
-  
-          <Button onClick={this.insertdata}>插入</Button>
-          <Button onClick={this.reloaddata.bind(this, state, selectData)}>刷新</Button>
-          <br />
-          <Tree
-            checkable
-            onSelect={onSelect}
-            onCheck={onCheck}
-            treeData={this.state.treeData}
-          />
-        </div>
-          )}
-          </Consumer>
+            <h2>内容仓库</h2>
+            <Search
+              placeholder="请输入要搜索内容"
+              allowClear
+              onSearch={this.onSearch}
+            />
 
-
-     
+            <Button onClick={this.insertdata}>插入</Button>
+            <Button onClick={this.reloaddata.bind(this, state, selectData)}>
+              刷新
+            </Button>
+            <br />
+            <Tree
+              checkable
+              onSelect={onSelect}
+              onCheck={onCheck}
+              treeData={this.state.treeData}
+            />
+          </div>
+        )}
+      </Consumer>
     );
   }
 }

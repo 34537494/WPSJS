@@ -204,20 +204,22 @@
             clientCallbackFunc, //回调函数，wps加载项中InvokeFromSystemDemo这个函数的返回值作为这个函数的参数 
             showToFront) //设置wps是否显示到最前面来
 
-        function clientCallbackFunc(result) {
-            if (result.status !== 0)
-                alert(result.message)
-            else {
-                if (result.response == "Failed to send message to WPS.") {
+            function clientCallbackFunc(result) {
+            if (result.status !== 0){
+                if (result.message == "Failed to send message to WPS.") {
                     ele.client.IsClientRunning(function (status) {
                         if (status.response == "Client is running.")
                             alert("任务发送失败，WPS 正在执行其他任务，请前往WPS完成当前任务")
                         else
                             alert("WPS 客户端被关闭了!")
                     })
-                } else {
-                    alert(result.response)
                 }
+                else {
+                    alert(result.message)
+                }
+            }
+            else {
+                alert(result.response)
             }
         }
     }

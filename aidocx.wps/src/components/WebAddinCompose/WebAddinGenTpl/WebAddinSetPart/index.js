@@ -20,9 +20,20 @@ export class CheckOpt extends React.Component {
     const tooltipId = "tooltip" + index;
     //const tooltipId = useId("tooltip");
     const calloutProps = { gapSpace: 0 };
-    const hostStyles = { root: { display: "inline-block" , marginTop:"10px" , paddingRight:'10px' } };
+    const hostStyles = {
+      root: {
+        display: "inline-block",
+        marginTop: "10px",
+        paddingRight: "10px",
+      },
+    };
     return (
-      <TooltipHost content={tips[0]} id={tooltipId} calloutProps={calloutProps} styles={hostStyles}>
+      <TooltipHost
+        content={tips[0]}
+        id={tooltipId}
+        calloutProps={calloutProps}
+        styles={hostStyles}
+      >
         <Checkbox
           key={index}
           label={tips[1]}
@@ -45,8 +56,10 @@ export class OptionOpt extends React.Component {
     if (!!this.props.opserial[index]) {
       defaultVal = this.props.opserial[index].toString();
     }
-   //console.log("defaultSelectedKey_optionOpt:",defaultVal)
-    const hostStyles = { root: { display: "inline-block",paddingRight:'12px' } };
+    //console.log("defaultSelectedKey_optionOpt:",defaultVal)
+    const hostStyles = {
+      root: { display: "inline-block", paddingRight: "12px" },
+    };
     let options = new Array();
     const tooltipId = "OptionTip" + index;
     this.props.data.map(
@@ -62,28 +75,44 @@ export class OptionOpt extends React.Component {
             >
               {data.text}
             </TooltipHost>
-          )
+          ),
         })
     );
-   // console.log(options);
+    // console.log(options);
     if (!!this.props.opserial[index]) {
       defaultVal = this.props.opserial[index].toString();
     }
     return (
+      <div style={{ display: "inline-block" }}>
+        <TooltipHost
+          content={tips[0]}
+          id={tooltipId}
+          calloutProps={calloutProps}
+          styles={hostStyles}
+        >
+          <span
+            style={{
+              fontSize: "14px",
+              textAlign: "center",
+              display: "flex",
+              height: "22px",
+            }}
+          >
+            {tips[1]}
+          </span>
+        </TooltipHost>
         <div style={{ display: "inline-block" }}>
-
-            <TooltipHost content={tips[0]} id={tooltipId} calloutProps={calloutProps} styles={hostStyles}>
-                <span style={{ fontSize: "14px",textAlign:"center",display:"flex", height:"22px"}}>{tips[1]}</span>
-            </TooltipHost>
-            <div style={{ display: "inline-block" }}>
-                <ChoiceGroup
-                    styles={  {  flexContainer: { display: "flex" } ,label:{wordWrap:"break-word",wordBreak:"break-all"}}}
-                    defaultSelectedKey={ Number(defaultVal)-1}
-                    options={options}
-                    onChange={this.props.handleChange}
-                />
-            </div>
+          <ChoiceGroup
+            styles={{
+              flexContainer: { display: "flex" },
+              label: { wordWrap: "break-word", wordBreak: "break-all" },
+            }}
+            defaultSelectedKey={Number(defaultVal) - 1}
+            options={options}
+            onChange={this.props.handleChange}
+          />
         </div>
+      </div>
     );
   }
 }
@@ -97,20 +126,27 @@ export class SelectOpt extends React.Component {
     //console.log(this.props.selinitial[index]);
     //console.log("SelectOpt:" + index);
     let dropdownStyles = {
-        root: { display: "inline-block",paddingRight:'12px',height:"24px" }
+      root: { display: "inline-block", paddingRight: "12px", height: "24px" },
     };
     // const tooltipId = useId("tooltip4");
     const tooltipId = "selecttooltip" + index;
     const calloutProps = { gapSpace: 5 };
-    const hostStyles = { root: { display: "inline-block" ,fontSize:"14px"} };
+    const hostStyles = { root: { display: "inline-block", fontSize: "14px" } };
     let options = new Array();
-    this.props.data.map((data, mapIndex) => (options[mapIndex] = { key: mapIndex, text: data }));
+    this.props.data.map(
+      (data, mapIndex) => (options[mapIndex] = { key: mapIndex, text: data })
+    );
     return (
       <div style={{ display: "inline-block", marginRight: "12px" }}>
-        <TooltipHost content={tips[0]} id={tooltipId} calloutProps={calloutProps} styles={hostStyles}>
+        <TooltipHost
+          content={tips[0]}
+          id={tooltipId}
+          calloutProps={calloutProps}
+          styles={hostStyles}
+        >
           {tips[1]}
         </TooltipHost>
-        <div style={{ display:"inline-block",alignItems: "bottom" }}>
+        <div style={{ display: "inline-block", alignItems: "bottom" }}>
           <Dropdown
             defaultSelectedKey={this.props.selserial[index]}
             options={options}

@@ -7,13 +7,19 @@ import React from "react";
 import styles from "./DynamicImageViewer.scss";
 import imgNoResultTip from "../../../assets/templates-no-result-tip.png";
 import { apiPublicPath } from "../../../settings";
-import { DocumentCard, DocumentCardTitle } from "office-ui-fabric-react/lib/DocumentCard";
+import {
+  DocumentCard,
+  DocumentCardTitle,
+} from "office-ui-fabric-react/lib/DocumentCard";
 export default class ImageViewer extends React.Component {
   render() {
     //https://github.com/xiabingwu/react-viewerjs
     //依据读取的情况判断？还是直接到数据库？直接到数据库比较好！
     //<Lazyload src={data} />
-    const Samplelist = `${apiPublicPath}getinfs/getSampleList/index?tpl_id=` + this.props.FullID + "&index=";
+    const Samplelist =
+      `${apiPublicPath}getinfs/getSampleList/index?tpl_id=` +
+      this.props.FullID +
+      "&index=";
     let dataLists = new Array(this.props.SamplePN);
     // console.log("dataLists.length:", dataLists.length);
     for (let i = 0; i < dataLists.length; i++) {
@@ -28,8 +34,8 @@ export default class ImageViewer extends React.Component {
         marginTop: 0,
         marginBottom: 10,
         marginLeft: 5,
-        marginRight: 5
-      }
+        marginRight: 5,
+      },
     };
 
     return (
@@ -40,7 +46,11 @@ export default class ImageViewer extends React.Component {
         {dataLists.length > 0 ? (
           dataLists.map((dataList, index) => (
             // eslint-disable-next-line no-restricted-globals
-            <div onClick={() => scrollTo(0, 0)} style={{ cursor: "pointer" }} key={index}>
+            <div
+              onClick={() => window.scrollTo(0, 0)}
+              style={{ cursor: "pointer" }}
+              key={index}
+            >
               <DocumentCard styles={cardStyles}>
                 <img src={dataList} width="100%" />
               </DocumentCard>

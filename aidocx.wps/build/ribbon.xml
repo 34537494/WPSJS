@@ -1,0 +1,23 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="ribbon.OnAddinLoad">
+    <ribbon startFromScratch="false">
+        <tabs>
+            <tab id="WriteComposeAddinTab" label="速写秒排">
+				<group id="WriterGroup" label="写作">
+                    <button id="btnShowWriter" label="写作辅助" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled" getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large" />
+                    <button id="btnAdjustComma" label="修正标点" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+				</group>
+                <group id="ComposeGroup" label="排版">
+                    <button id="btnShowComposer" label="集成排版" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+				</group>
+                <!--
+                 <button id="btnShowMsg" label="弹出消息框" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
+                    <button id="btnIsEnbable" getLabel="ribbon.OnGetLabel" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
+                    <button id="btnShowDialog" label="弹对话框网页" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+                    <button id="btnShowTaskPane" label="弹任务窗格网页" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+                    <button id="btnApiEvent" getLabel="ribbon.OnGetLabel" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+                    <button id="btnWebNotify" label="给业务系统发通知" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+                -->
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>

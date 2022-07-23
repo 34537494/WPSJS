@@ -1,0 +1,1 @@
+var projInfo = {"name":"aidocx","type":"wps"}

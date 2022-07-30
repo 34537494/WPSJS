@@ -1,0 +1,22 @@
+.format {
+    min-width: 300px;
+}
+
+.searchInput {
+    display: flex;
+    width: 320px;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    transform:translate(15%,0%);
+
+
+}
+
+.settingButton {
+    display: flex;
+}
+
+.settingButton Avatar {
+    flex: 1;
+}

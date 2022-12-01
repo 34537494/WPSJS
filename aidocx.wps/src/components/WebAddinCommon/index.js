@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 //import {apiPublicPath} from "../../settings";
 /* global wps:false */
-import {updateStatus} from "./UploadDocContent";
+import { updateStatus } from "./UploadDocContent";
 
 export async function handleFetch(url, options = {}) {
   const defaultOptions = {
     method: "GET",
-    credentials: "same-origin"
+    credentials: "same-origin",
   };
   /*
   if (path(["method"], options) === "POST") {
@@ -16,97 +16,98 @@ export async function handleFetch(url, options = {}) {
   }
   */
 
-console.log("handleFetch_url：", url);
+  console.log("handleFetch_url：", url);
   //const resultOptions = mergeDeepRight(defaultOptions, options);
   try {
     const res = await fetch(url, defaultOptions);
     //checkStatus(res);
     if (typeof res !== "string") {
-      if (res !==undefined && typeof res === "object" && res) {
-        let result="";
+      if (res !== undefined && typeof res === "object" && res) {
+        let result = "";
         try {
-            result= res.json(); //错误在这里,如果出错，那么会保持result属性
-         }catch (e) {
-            //message.error("数据请求错误，请检查网络！");
-         }
-     
-        if ((typeof result)!=="object"){
-          return {"success":false};
-        }else{
+          result = res.json(); //错误在这里,如果出错，那么会保持result属性
+        } catch (e) {
+          //message.error("数据请求错误，请检查网络！");
+        }
+
+        if (typeof result !== "object") {
+          return { success: false };
+        } else {
           return result;
         }
       }
     } else {
-     // message.error("返回数据格式错误，网站可能在维护！");
+      // message.error("返回数据格式错误，网站可能在维护！");
     }
   } catch (e) {
-   // message.error("数据请求错误，请检查网络！");
+    // message.error("数据请求错误，请检查网络！");
   }
 }
 //    credentials: "same-origin",
-export  async function handlePost(url, jsonStr) {
- //console.log(" _typeof_jsonStr:", typeof jsonStr);
- //console.log("_json:", jsonStr);
+export async function handlePost(url, jsonStr) {
+  //console.log(" _typeof_jsonStr:", typeof jsonStr);
+  //console.log("_json:", jsonStr);
   const defaultOptions = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(jsonStr)
+
+    body: JSON.stringify(jsonStr),
   };
+
   console.log("handlePost_url：", url);
   //const resultOptions = mergeDeepRight(defaultOptions, options);
   try {
-     const res =  await fetch(url, defaultOptions);
-     //console.log("handlePost_res：", res);
-     if (typeof res !== "string") {
-      if (res !==undefined &&  typeof res === "object" && res ) {
+    const res = await fetch(url, defaultOptions);
+    //console.log("handlePost_res：", res);
+    if (typeof res !== "string") {
+      if (res !== undefined && typeof res === "object" && res) {
         return res.json();
       }
     } else {
-      
-     //console.log("返回数据格式错误，网站可能在维护！");
-     // message.error("返回数据格式错误，网站可能在维护！");
+      //console.log("返回数据格式错误，网站可能在维护！");
+      // message.error("返回数据格式错误，网站可能在维护！");
     }
   } catch (e) {
     //message.error("数据请求错误，请检查网络！");
-   //console.log("数据请求错误，请检查网络！");
+    //console.log("数据请求错误，请检查网络！");
   }
 }
 
-export function saveDocByte(newName,xhr,action) {
-//wps支持写入本地文件，是否也支持呢
+export function saveDocByte(newName, xhr, action) {
+  //wps支持写入本地文件，是否也支持呢
   let blob = new Blob([xhr.response]);
   var reader = new FileReader();
   reader.readAsBinaryString(blob);
-  reader.onload = function(){
-      //读取完毕后输出结果
-     // console.log(this.result);
-    if (newName.indexOf("\\")===-1  && newName.indexOf("/")===-1){
-      let TempPath =wps.Env.GetTempPath()+ "\\TempSource";  // wpsapp.NormalTemplate.Path;
-      if (!wps.FileSystem.Exists(TempPath)){
+  reader.onload = function () {
+    //读取完毕后输出结果
+    // console.log(this.result);
+    if (newName.indexOf("\\") === -1 && newName.indexOf("/") === -1) {
+      let TempPath = wps.Env.GetTempPath() + "\\TempSource"; // wpsapp.NormalTemplate.Path;
+      if (!wps.FileSystem.Exists(TempPath)) {
         wps.FileSystem.Mkdir(TempPath);
       }
-        newName=TempPath+"/"+newName;
+      newName = TempPath + "/" + newName;
     }
-      wps.FileSystem.writeAsBinaryString(newName,this.result);
-      if (action===1){
-        //直接打开文档
-        if (wps.FileSystem.Exists(newName)){
-          wps.WpsApplication().Documents.Open(newName);
-          }else{
-            updateStatus("下载失败！");
-          }
+    wps.FileSystem.writeAsBinaryString(newName, this.result);
+    if (action === 1) {
+      //直接打开文档
+      if (wps.FileSystem.Exists(newName)) {
+        wps.WpsApplication().Documents.Open(newName);
+      } else {
+        updateStatus("下载失败！");
       }
-      if (action===2){
-        //直接插入文档
-        if (wps.FileSystem.Exists(newName)){
-          let wpsapp = wps.WpsApplication();
-          wpsapp.Selection.Range.InsertFile(newName);
-          wps.FileSystem.Remove(newName);
-        }
-      }      
-  }
+    }
+    if (action === 2) {
+      //直接插入文档
+      if (wps.FileSystem.Exists(newName)) {
+        let wpsapp = wps.WpsApplication();
+        wpsapp.Selection.Range.InsertFile(newName);
+        wps.FileSystem.Remove(newName);
+      }
+    }
+  };
   // if (navigator.msSaveOrOpenBlob) {
   //   navigator.msSaveOrOpenBlob(blob, newName);
   // } else {

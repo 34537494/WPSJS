@@ -3,15 +3,16 @@ import React, { Component } from "react";
 import { Tree, Input, Button, Select } from "antd";
 const { Search } = Input;
 
-function General(props) {
+function SearchBox(props) {
   const onChange = (val) => {
+    // console.log("val" + val);
     props.getOption(val);
   };
   const onSearch = () => {
     props.onSearch();
   };
   return (
-    <div style={{ margin: "10px", padding: "10px" }}>
+    <div style={{ marginLeft: "10px", marginRight: "10px", marginTop: "20px" }}>
       <h2>内容库</h2>
       <div style={{ display: "flex" }}>
         <Select
@@ -19,13 +20,12 @@ function General(props) {
           defaultValue="请选择"
           onChange={onChange}
         >
-          <Select.Option value="共有库">共有库</Select.Option>
+          <Select.Option value="公共库">公共库</Select.Option>
           <Select.Option value="私有库">私有库</Select.Option>
         </Select>
         <Search placeholder="请输入要搜索内容" allowClear onSearch={onSearch} />
       </div>
-      <br />
     </div>
   );
 }
-export default General;
+export default SearchBox;

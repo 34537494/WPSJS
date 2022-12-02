@@ -1,24 +1,27 @@
 import React from "react";
- 
+
 import {
   DocumentCard,
   DocumentCardActions,
   DocumentCardActivity,
   DocumentCardLocation,
   DocumentCardTitle,
-  } from "office-ui-fabric-react/lib/DocumentCard";
+} from "office-ui-fabric-react/lib/DocumentCard";
 //import { ImageFit } from 'office-ui-fabric-react/lib/Image';
 //import styles from "./WebAddinSchema.scss";
 import { Consumer } from "../../../WebAddinContext";
-import {  handlePost   } from "../../../WebAddinCommon";
+import { handlePost } from "../../../WebAddinCommon";
 import { apiPublicPath, RootPath } from "../../../../settings";
 import confirmDialog from "../../../WebAddinCommon/DynamicConfirm";
 import QRCode from "qrcode.react";
 import copy from "copy-to-clipboard/index";
-import {  UploadDocContent,composeDocInsert} from "../../../WebAddinCommon/UploadDocContent";
+import {
+  UploadDocContent,
+  composeDocInsert,
+} from "../../../WebAddinCommon/UploadDocContent";
 //const Cookies = require("js-cookie");
 
-let clickType=0;
+let clickType = 0;
 
 export class WebAddinSchema extends React.PureComponent {
   // eslint-disable-next-line no-useless-constructor
@@ -325,7 +328,8 @@ export class WebAddinSchema extends React.PureComponent {
       } else {
         UploadDocContent(
           `${apiPublicPath}tools/composeFilesRecord`,
-          "0",state.curUser.user_id,
+          "0",
+          state.curUser.user_id,
           this.composeInsert.bind(this, state, tplData)
         );
       }

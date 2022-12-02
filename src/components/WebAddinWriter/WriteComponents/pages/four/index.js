@@ -5,14 +5,13 @@ import {
   UnderlineOutlined,
   SortAscendingOutlined,
   SortDescendingOutlined,
-  QuestionOutlined,
+  QuestionOutlined, 
 } from "@ant-design/icons";
-import { Avatar, Col, Row } from "antd";
+import { Avatar } from "antd";
 import handle from "./iconEvent";
 import SearchInput from "../../search";
 // import MenuSelf from '../../menu/menu';
 import MenuSelf from "../../menu/menu";
-import "./format.css"
 /* global wps:false */
 
 const valueFont = {
@@ -115,13 +114,12 @@ class Four extends Component {
   // };
   render() {
     return (
-      <div class="format">
+      <div>
         <div style={{ margin: "10px 10px 50px 10px", padding: "10px" }}>
           <h2>数据格式化</h2>
           <br />
-          <div class="searchInput">
-            <SearchInput />
-          </div>
+          <SearchInput />
+          <br />
           <br />
           <MenuSelf value={valueFont} />
           <MenuSelf value={valueColor} />
@@ -131,77 +129,47 @@ class Four extends Component {
             icon={<FormOutlined />}
             onClick={this.handleClick.bind(this, "字体")}
           /> */}
-          <div>
-            <Row>
-              <Col span={10} push="3">
-                <Avatar
-                  size={35}
-                  icon={<BoldOutlined />}
-                  onClick={this.handleClick.bind(this, "加粗")}
-                />
-              </Col>
-
-              <Col span={4}>
-                <Avatar
-                  size={35}
-                  icon={<ItalicOutlined />}
-                  onClick={this.handleClick.bind(this, "倾斜")}
-                />
-              </Col>
-              <Col span={10} pull="3">
-                <Avatar
-                  size={35}
-                  icon={
-                    <UnderlineOutlined
-                      onClick={this.handleClick.bind(this, "下划线")}
-                    />
-                  }
-                />
-              </Col>
-            </Row>
-
-
-
-            <br />
-            <Row>
-              <Col span={10} push="3">
-                <Avatar
-                  size={35}
-                  icon={<SortAscendingOutlined />}
-                  onClick={this.handleClick.bind(this, "变小")}
-                />
-              </Col>
-
-              <Col span={4}>
-                <Avatar
-                  size={35}
-                  icon={<SortDescendingOutlined />}
-                  onClick={this.handleClick.bind(this, "变大")}
-                />
-              </Col>
-              <Col span={10} pull="2">
-                <div>
-                  <Avatar size={20} icon={<QuestionOutlined onClick={this.handleClick.bind(this, "帮助1")} />} />
-                  <span>帮助</span>
-                </div>
-
-              </Col>
-            </Row>
-
-
-            {/* <Avatar
+          <Avatar
+            size={35}
+            icon={<BoldOutlined />}
+            onClick={this.handleClick.bind(this, "加粗")}
+          />
+          <Avatar
+            size={35}
+            icon={<ItalicOutlined />}
+            onClick={this.handleClick.bind(this, "倾斜")}
+          />
+          <Avatar
+            size={35}
+            icon={
+              <UnderlineOutlined
+                onClick={this.handleClick.bind(this, "下划线")}
+              />
+            }
+          />
+          <br />
+          <Avatar
+            size={35}
+            icon={<SortAscendingOutlined />}
+            onClick={this.handleClick.bind(this, "变小")}
+          />
+          <Avatar
+            size={35}
+            icon={<SortDescendingOutlined />}
+            onClick={this.handleClick.bind(this, "变大")}
+          />
+          {/* <Avatar
             size={35}
             icon={<BgColorsOutlined />}
             onClick={this.handleClick.bind(this, "颜色")}
           /> */}
-            <span>&nbsp;&nbsp;</span>
+          <span>&nbsp;&nbsp;</span>
 
-
-          </div>
-
+          <Avatar size={20} icon={<QuestionOutlined onClick={this.handleClick.bind(this, "帮助1")} />} />
+          <span>帮助</span>
           <br />
         </div>
-
+       
       </div>
     );
   }

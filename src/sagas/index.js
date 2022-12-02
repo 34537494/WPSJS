@@ -10,6 +10,8 @@ import {
     signupFinished,
     checklogin,
     checkloginFinished,
+    checkfinanceyear,
+    checkfinanceyearFinished
 } from '../actions';
  
 import { apiPublicPath } from "../settings";
@@ -87,9 +89,22 @@ function* signupHandler({ payload }) {
   }
 }
  
+function* checkfinanceyearHandler({ payload }) {
+  try {
+    const result = yield call(usersSource.checkfinanceyear, payload);
+    console.log("call(usersSource.checkfinanceyear, payload)",result);
+    const action = yield call(checkfinanceyearFinished, result);
+    yield put(action);
+  } catch (e) {
+    // console.log(e);
+    yield put(checkfinanceyearFinished(e));
+  }
+}
+
 export default function* userSaga() {
   yield takeLatest(login, loginHandler);
   yield takeLatest(checklogin, checkloginHandler);
   yield takeLatest(signup, signupHandler);
   yield takeLatest(logout, logoutHandler);
+  yield takeLatest(checkfinanceyear, checkfinanceyearHandler);
 }

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
- 
-import Button from "antd/es/button"
- 
-/* global wps:false */
 
+import Button from "antd/es/button";
+
+/* global wps:false */
 
 class Merge extends Component {
   // ComineDocContent(url, useType, user_id, action) {
@@ -68,7 +67,7 @@ class Merge extends Component {
       //newdoc.Visible=true;
 
       console.log("newdoc_text:", newdoc);
-    } catch(err) {}
+    } catch (err) {}
   }
 
   // handleClick(param) {
@@ -91,10 +90,10 @@ class Merge extends Component {
 
   onSelectDoc = (event) => {
     let DocNum = event.target.files.length;
-    console.log("event.target.files num:",DocNum);
+    console.log("event.target.files num:", DocNum);
     if (DocNum > 0) {
       let wpsapp = wps.WpsApplication();
-      let TempPath = wps.Env.GetTempPath() + "/TempDoc"; 
+      let TempPath = wps.Env.GetTempPath() + "/TempDoc";
       TempPath = TempPath.replace(/\\/g, "/");
       if (!wps.FileSystem.Exists(TempPath)) {
         wps.FileSystem.Mkdir(TempPath);
@@ -103,9 +102,14 @@ class Merge extends Component {
       for (let j = 0; j < DocNum; j++) {
         let reader = new FileReader();
         reader.onload = (e) => {
-          let newName =  TempPath + "/TempDoc" +  new Date().getTime().toString() + e.total +  ".docx"; //linux下分隔符可能有问题
-          console.log("byteArr:",e.target.result);
-          wps.FileSystem.writeAsBinaryString(newName, e.target.result);//等价于复制数据,也可以预防文件被占用问题
+          let newName =
+            TempPath +
+            "/TempDoc" +
+            new Date().getTime().toString() +
+            e.total +
+            ".docx"; //linux下分隔符可能有问题
+          console.log("byteArr:", e.target.result);
+          wps.FileSystem.writeAsBinaryString(newName, e.target.result); //等价于复制数据,也可以预防文件被占用问题
           if (wps.FileSystem.Exists(newName)) {
             //wpsapp.Selection.Range.InsertFile(newName); //也应该可以
             newdoc.Range(0, 0).InsertFile(newName);
@@ -120,24 +124,25 @@ class Merge extends Component {
   render() {
     return (
       <div style={{ margin: "10px 10px 50px 10px", padding: "10px" }}>
-          <h2>文档合并</h2>
-          <Button onClick={this.ComineDocContent}>合并当前打开的文档</Button>
-          <br />
-          <br />
-          <p>合并目录下文件示例 </p>
-          <input
-            type="file"
-            id="docfile"
-            multiple="multiple"
-            accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
-            onChange={this.onSelectDoc}/>
-          {/* <Btn text="选择文件" />
+        <h2>文档合并</h2>
+        <Button onClick={this.ComineDocContent}>合并当前打开的文档</Button>
+        <br />
+        <br />
+        <p>合并目录下文件示例 </p>
+        <input
+          type="file"
+          id="docfile"
+          multiple="multiple"
+          accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          onChange={this.onSelectDoc}
+        />
+        {/* <Btn text="选择文件" />
           <div>
             <p>文件一：</p>
             <p>文件二：</p>
           </div>
           <Btn text="合并文件" /> */}
-        </div>
+      </div>
     );
   }
 }

@@ -1,68 +1,13 @@
-.myStyle_1 {
+.myStyle_1{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
     padding: 40px;
 }
 
-.myStyle_2 {
+.myStyle_2{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
     margin: 10px;
-}
-
-.inputPicture {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    padding-bottom: 10px;
-    width: 300px;
-    min-height: 100px;
-    border: 4px solid rgb(123, 190, 249);
-    border-radius: 12px;
-}
-
-.inputTable {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    padding-bottom: 10px;
-    width: 300px;
-    min-height: 100px;
-    border: 4px solid rgb(123, 190, 249);
-    border-radius: 12px;
-}
-
-.inputWords {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    padding-bottom: 10px;
-    width: 300px;
-    min-height: 100px;
-    border: 4px solid rgb(123, 190, 249);
-    border-radius: 12px;
-}
-
-.inputButton_1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 120px;
-}
-
-.dividingLine {
-    display: flex;
-    align-items: center;
-    height: 2px;
-    width: 320px;
-    background-color: rgb(123, 190, 249);
-}
-
-input {
-    display: flex;
 }

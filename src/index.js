@@ -12,6 +12,7 @@ import appReducer from './reducers';
 import userSaga from './sagas';
 /*
 关于全局管理参考文献:
+https://blog.csdn.net/sinat_17775997/article/details/90580612
 http://www.zzvips.com/article/191684.html
 https://www.jianshu.com/p/e84493c7af35
 https://www.jianshu.com/p/b17d8bec13f3

@@ -15,7 +15,7 @@ module.exports = function (app) {
   app.use(
     "/vstoapi/",
     createProxyMiddleware({
-      target: "https://www.aidocx.net/index.php/",
+      target: "http://localhost/index.php/",
       secure: false,
       changeOrigin: true,
       //ws: true,

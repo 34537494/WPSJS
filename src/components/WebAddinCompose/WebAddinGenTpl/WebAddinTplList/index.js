@@ -3,21 +3,32 @@ import * as React from "react";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
 import { Fabric } from "office-ui-fabric-react/lib/Fabric";
 import { Announced } from "office-ui-fabric-react/lib/Announced";
-import { DetailsList, DetailsListLayoutMode, Selection, SelectionMode } from "office-ui-fabric-react/lib/DetailsList";
+import {
+  DetailsList,
+  DetailsListLayoutMode,
+  Selection,
+  SelectionMode,
+} from "office-ui-fabric-react/lib/DetailsList";
 import { MarqueeSelection } from "office-ui-fabric-react/lib/MarqueeSelection";
 import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { apiPublicPath, RootPath } from "../../../../settings";
 import { handlePost } from "../../../WebAddinCommon";
-import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
+import {
+  PrimaryButton,
+  DefaultButton,
+} from "office-ui-fabric-react/lib/Button";
 import confirmDialog from "../../../WebAddinCommon/DynamicConfirm";
 import DialogAlert from "../../../WebAddinCommon/DynamicModal";
 import styles from "./WebAddinTplList.scss";
-import {UploadDocContent ,composeDocInsert } from "../../../WebAddinCommon/UploadDocContent";
+import {
+  UploadDocContent,
+  composeDocInsert,
+} from "../../../WebAddinCommon/UploadDocContent";
 const Cookies = require("js-cookie");
 const classNames = mergeStyleSets({
   fileIconHeaderIcon: {
     padding: 0,
-    fontSize: "16px"
+    fontSize: "16px",
   },
   fileIconCell: {
     textAlign: "center",
@@ -28,20 +39,20 @@ const classNames = mergeStyleSets({
         verticalAlign: "middle",
         height: "100%",
         width: "0px",
-        visibility: "hidden"
-      }
-    }
+        visibility: "hidden",
+      },
+    },
   },
   fileIconImg: {
     verticalAlign: "middle",
     maxHeight: "16px",
-    maxWidth: "16px"
+    maxWidth: "16px",
   },
   controlWrapper: {
     display: "flex",
     flexWrap: "wrap",
     top: "20px",
-    alignItems: "center"
+    alignItems: "center",
   },
   fabricWrapper: {
     position: "relative",
@@ -50,39 +61,39 @@ const classNames = mergeStyleSets({
     maxWidth: "586px",
     minWidth: "280px",
     fontSize: "16px",
-    width: "90%"
+    width: "90%",
   },
 
   selectionDetails: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 const controlStyles = {
   root: {
     margin: "0 30px 5px 0",
     maxWidth: "300px",
-    minWidth: "60px"
+    minWidth: "60px",
   },
   fieldGroup: {
-    marginTop: "3px"
-  }
+    marginTop: "3px",
+  },
 };
 const newNameStyles = {
   root: {
     margin: "0 5px 5px 0",
     maxWidth: "600px",
-    minWidth: "60px"
+    minWidth: "60px",
   },
   fieldGroup: {
-    marginTop: "3px"
-  }
+    marginTop: "3px",
+  },
 };
 const selectInfStyles = {
   fontSize: "16px",
   fontWeight: "bold",
-  marginTop: "8px"
+  marginTop: "8px",
 };
 const ButtonStyles = {
   root: {
@@ -91,16 +102,16 @@ const ButtonStyles = {
     marginTop: "8px",
     marginRight: "8px",
     paddingLeft: "8px",
-    paddingRight: "8px"
-  }
+    paddingRight: "8px",
+  },
 };
 const BtnRenameStyles = {
   root: {
     maxWidth: "90px",
     minWidth: "35px",
     marginTop: "8px",
-    marginRight: "8px"
-  }
+    marginRight: "8px",
+  },
 };
 
 const ListBtnStyles = {
@@ -108,29 +119,29 @@ const ListBtnStyles = {
     maxWidth: "60px",
     minWidth: "35px",
     paddingLeft: "8px",
-    paddingRight: "8px"
-  }
+    paddingRight: "8px",
+  },
 };
 const noShareStyles = {
   root: {
     maxWidth: "95px",
     minWidth: "35px",
     marginTop: "8px",
-    marginRight: "8px"
-  }
+    marginRight: "8px",
+  },
 };
 
 const BtnSpanStyles = {
   maxWidth: "60px",
-  minWidth: "35px"
+  minWidth: "35px",
 };
 const noShareSpanStyles = {
   maxWidth: "95px",
-  minWidth: "35px"
+  minWidth: "35px",
 };
 const reNameSpanStyles = {
   maxWidth: "90px",
-  minWidth: "35px"
+  minWidth: "35px",
 };
 const WholeBtnStyles = {
   root: {
@@ -138,8 +149,8 @@ const WholeBtnStyles = {
     minWidth: "45px",
     height: "32px",
     marginTop: "8px",
-    marginRight: "8px"
-  }
+    marginRight: "8px",
+  },
 };
 const ShareBtnStyles = {
   root: {
@@ -147,16 +158,16 @@ const ShareBtnStyles = {
     minWidth: "45px",
     height: "32px",
     marginTop: "8px",
-    marginRight: "8px"
-  }
+    marginRight: "8px",
+  },
 };
 const WholeSpanStyles = {
   maxWidth: "90px",
-  minWidth: "45px"
+  minWidth: "45px",
 };
 const ShareSpanStyles = {
   maxWidth: "130px",
-  minWidth: "45px"
+  minWidth: "45px",
 };
 export default class TplDetailsList extends React.Component {
   _selection = "";
@@ -197,7 +208,7 @@ export default class TplDetailsList extends React.Component {
         sortDescendingAriaLabel: "Sorted Z to A",
         onColumnClick: this._onColumnClick,
         data: "string",
-        isPadded: true
+        isPadded: true,
       },
       {
         key: "column3",
@@ -208,10 +219,10 @@ export default class TplDetailsList extends React.Component {
         isResizable: true,
         onColumnClick: this._onColumnClick,
         data: "number",
-        onRender: item => {
+        onRender: (item) => {
           return <span>{item.command}</span>;
         },
-        isPadded: true
+        isPadded: true,
       },
       {
         key: "column4",
@@ -223,16 +234,16 @@ export default class TplDetailsList extends React.Component {
         isResizable: true,
         isCollapsible: true,
         data: "number",
-        onColumnClick: this._onColumnClick
-      }
+        onColumnClick: this._onColumnClick,
+      },
     ];
 
     this._selection = new Selection({
       onSelectionChanged: () => {
         this.setState({
-          selectionDetails: this._getSelectionDetails()
+          selectionDetails: this._getSelectionDetails(),
         });
-      }
+      },
     });
 
     this.state = {
@@ -243,7 +254,7 @@ export default class TplDetailsList extends React.Component {
       selectionDetails: this._getSelectionDetails(),
       isModalSelection: true,
       isCompactMode: true,
-      announcedMessage: undefined
+      announcedMessage: undefined,
     };
   }
   componentDidMount() {
@@ -257,49 +268,76 @@ export default class TplDetailsList extends React.Component {
     // data.tpl_id = record.id;
     //console.log(data);
     const items = [];
-    handlePost(`${apiPublicPath}getinfs/getautotplslist/index`, data).then(result => {
-      try {
-        //console.log("apiPublicPath_getautotplslist_result.count:", result);
-        const resultNum = result.length;
-        for (let i = 0; i < resultNum; i++) {
-          items.push({
-            key: i.toString(),
-            name: result[i].title,
-            dateModified: <span style={{ fontSize: "14px", verticalAlign: "middle" }}>{result[i].tpl_time}</span>,
-            tplData: result[i],
-            command: (
-              <div>
-                <div style={{ display: "inline-block" }}>
-                  <PrimaryButton primary styles={ListBtnStyles} onClick={this.handleTplDetail.bind(this, i)}>
-                    详情
-                  </PrimaryButton>
+    handlePost(`${apiPublicPath}getinfs/getautotplslist/index`, data).then(
+      (result) => {
+        try {
+          //console.log("apiPublicPath_getautotplslist_result.count:", result);
+          const resultNum = result.length;
+          for (let i = 0; i < resultNum; i++) {
+            items.push({
+              key: i.toString(),
+              name: result[i].title,
+              dateModified: (
+                <span style={{ fontSize: "14px", verticalAlign: "middle" }}>
+                  {result[i].tpl_time}
+                </span>
+              ),
+              tplData: result[i],
+              command: (
+                <div>
+                  <div style={{ display: "inline-block" }}>
+                    <PrimaryButton
+                      primary
+                      styles={ListBtnStyles}
+                      onClick={this.handleTplDetail.bind(this, i)}
+                    >
+                      详情
+                    </PrimaryButton>
+                  </div>
+                  <div style={{ display: "inline-block", marginLeft: "4px" }}>
+                    <DefaultButton
+                      primary
+                      styles={ListBtnStyles}
+                      onClick={this.handleTplEdit.bind(this, i)}
+                    >
+                      编辑
+                    </DefaultButton>
+                  </div>
                 </div>
-                <div style={{ display: "inline-block", marginLeft: "4px" }}>
-                  <DefaultButton primary styles={ListBtnStyles} onClick={this.handleTplEdit.bind(this, i)}>
-                    编辑
-                  </DefaultButton>
-                </div>
-              </div>
-            )
-          });
+              ),
+            });
+          }
+          this._AllItems = items;
+        } catch (e) {
+          //console.log(e);
+          //message.error("数据获取错误，请检查网络！");
+          console.log(
+            "apiPublicPath_getautotplslist_ERROR:数据获取错误，请检查网络！"
+          );
         }
-        this._AllItems = items;
-      } catch (e) {
-        //console.log(e);
-        //message.error("数据获取错误，请检查网络！");
-        console.log("apiPublicPath_getautotplslist_ERROR:数据获取错误，请检查网络！");
       }
-    });
+    );
     this.setState({
-      items: items
+      items: items,
     });
   }
   render() {
-    const { columns, isCompactMode, items, selectionDetails, isModalSelection, announcedMessage } = this.state;
+    const {
+      columns,
+      isCompactMode,
+      items,
+      selectionDetails,
+      isModalSelection,
+      announcedMessage,
+    } = this.state;
     return (
       <Fabric className={classNames.fabricWrapper}>
         <div className={classNames.controlWrapper}>
-          <TextField label="筛选:" onChange={this._onChangeText} styles={controlStyles} />
+          <TextField
+            label="筛选:"
+            onChange={this._onChangeText}
+            styles={controlStyles}
+          />
           <div className={classNames.selectionDetails}>{selectionDetails}</div>
           <Announced message={selectionDetails} />
         </div>
@@ -327,7 +365,10 @@ export default class TplDetailsList extends React.Component {
   }
 
   componentDidUpdate(previousProps, previousState) {
-    if (previousState.isModalSelection !== this.state.isModalSelection && !this.state.isModalSelection) {
+    if (
+      previousState.isModalSelection !== this.state.isModalSelection &&
+      !this.state.isModalSelection
+    ) {
       this._selection.setAllSelected(false);
     }
     if (this.props.listRenew === true && previousProps.listRenew === false) {
@@ -337,7 +378,9 @@ export default class TplDetailsList extends React.Component {
 
   _onChangeText = (ev, text) => {
     this.setState({
-      items: text ? this._AllItems.filter(i => i.name.toLowerCase().indexOf(text) > -1) : this._AllItems
+      items: text
+        ? this._AllItems.filter((i) => i.name.toLowerCase().indexOf(text) > -1)
+        : this._AllItems,
     });
   };
 
@@ -353,40 +396,67 @@ export default class TplDetailsList extends React.Component {
           </div>
         );
       case 1:
-        const selectItem = <div styles={selectInfStyles}>选中: {this._selection.getSelection()[0].name}</div>;
+        const selectItem = (
+          <div styles={selectInfStyles}>
+            选中: {this._selection.getSelection()[0].name}
+          </div>
+        );
         return (
           <div>
             {selectItem}
             <PrimaryButton
               primary
               styles={ButtonStyles}
-              onClick={this.handleComposeClick.bind(this, this._selection.getSelection()[0].tplData)}
+              onClick={this.handleComposeClick.bind(
+                this,
+                this._selection.getSelection()[0].tplData
+              )}
             >
               <span style={BtnSpanStyles}>排版</span>
             </PrimaryButton>
-            <DefaultButton styles={BtnRenameStyles} onClick={this.handleRenameTpl.bind(this)}>
+            <DefaultButton
+              styles={BtnRenameStyles}
+              onClick={this.handleRenameTpl.bind(this)}
+            >
               <span style={reNameSpanStyles}>重命名</span>
             </DefaultButton>
-            <DefaultButton styles={ButtonStyles} onClick={this.handleDelTpl.bind(this)}>
+            <DefaultButton
+              styles={ButtonStyles}
+              onClick={this.handleDelTpl.bind(this)}
+            >
               <span style={BtnSpanStyles}>删除</span>
             </DefaultButton>
-            <DefaultButton styles={noShareStyles} onClick={this.handleShareAll.bind(this, "0")}>
+            <DefaultButton
+              styles={noShareStyles}
+              onClick={this.handleShareAll.bind(this, "0")}
+            >
               <span style={noShareSpanStyles}>取消分享</span>
             </DefaultButton>
           </div>
         );
       default:
-        const itemsStatic = <div styles={selectInfStyles}> {selectionCount} 个方案被选中</div>;
+        const itemsStatic = (
+          <div styles={selectInfStyles}> {selectionCount} 个方案被选中</div>
+        );
         return (
           <div>
             {itemsStatic}
-            <PrimaryButton styles={WholeBtnStyles} onClick={this.handleDelAllTpl.bind(this)}>
+            <PrimaryButton
+              styles={WholeBtnStyles}
+              onClick={this.handleDelAllTpl.bind(this)}
+            >
               <span style={WholeSpanStyles}>全部删除</span>
             </PrimaryButton>
-            <DefaultButton styles={ShareBtnStyles} onClick={this.handleShareAll.bind(this, "1")}>
+            <DefaultButton
+              styles={ShareBtnStyles}
+              onClick={this.handleShareAll.bind(this, "1")}
+            >
               <span style={ShareSpanStyles}>全部分享</span>
             </DefaultButton>
-            <DefaultButton styles={ShareBtnStyles} onClick={this.handleShareAll.bind(this, "0")}>
+            <DefaultButton
+              styles={ShareBtnStyles}
+              onClick={this.handleShareAll.bind(this, "0")}
+            >
               <span style={ShareSpanStyles}>全部取消分享</span>
             </DefaultButton>
           </div>
@@ -398,28 +468,40 @@ export default class TplDetailsList extends React.Component {
     console.log(" getautotplslist__onColumnClick_this.state:", this.state);
     const { columns, items } = this.state;
     const newColumns = columns.slice();
-    const currColumn = newColumns.filter(currCol => column.key === currCol.key)[0];
-    newColumns.forEach(newCol => {
+    const currColumn = newColumns.filter(
+      (currCol) => column.key === currCol.key
+    )[0];
+    newColumns.forEach((newCol) => {
       if (newCol === currColumn) {
         currColumn.isSortedDescending = !currColumn.isSortedDescending;
         currColumn.isSorted = true;
         this.setState({
-          announcedMessage: `${currColumn.name} is sorted ${currColumn.isSortedDescending ? "descending" : "ascending"}`
+          announcedMessage: `${currColumn.name} is sorted ${
+            currColumn.isSortedDescending ? "descending" : "ascending"
+          }`,
         });
       } else {
         newCol.isSorted = false;
         newCol.isSortedDescending = true;
       }
     });
-    const newItems = this._copyAndSort(items, currColumn.fieldName, currColumn.isSortedDescending);
+    const newItems = this._copyAndSort(
+      items,
+      currColumn.fieldName,
+      currColumn.isSortedDescending
+    );
     this.setState({
       columns: newColumns,
-      items: newItems
+      items: newItems,
     });
   };
   _copyAndSort(items, columnKey, isSortedDescending) {
     const key = columnKey;
-    return items.slice(0).sort((a, b) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
+    return items
+      .slice(0)
+      .sort((a, b) =>
+        (isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
+      );
   }
 
   handleTplDetail = (index, e) => {
@@ -431,25 +513,31 @@ export default class TplDetailsList extends React.Component {
       "研究设计报告",
       "投标与招标书",
       "软件操作文档",
-      "未知类型文档"
+      "未知类型文档",
     ];
 
     const mainInf = {
       SourceType: "私有",
-      SchemaType: SchemaType[this._selection._items[this._selection._keyToIndexMap[index]].tplData.type],
-      searchType: 1
+      SchemaType:
+        SchemaType[
+          this._selection._items[this._selection._keyToIndexMap[index]].tplData
+            .type
+        ],
+      searchType: 1,
     };
     this.props.history.push({
       pathname: "/Compose/details",
       state: this.props,
-      tplData: this._selection._items[this._selection._keyToIndexMap[index]].tplData,
-      mainInf: mainInf
+      tplData:
+        this._selection._items[this._selection._keyToIndexMap[index]].tplData,
+      mainInf: mainInf,
     });
   };
 
   handleTplEdit = (index, e) => {
     //url = `${RootPath}Compose/share/${this.state.tplData.ownerid}_${tplId}`;
-    let tplData = this._selection._items[this._selection._keyToIndexMap[index]].tplData;
+    let tplData =
+      this._selection._items[this._selection._keyToIndexMap[index]].tplData;
     console.log(
       "this._selection._items[this._selection._keyToIndexMap[index]].tplData:",
       this._selection._items[this._selection._keyToIndexMap[index]].tplData
@@ -469,24 +557,24 @@ export default class TplDetailsList extends React.Component {
       "-ownerid-" +
       tplData.ownerid;
     handlePost(`${apiPublicPath}users/reglogin/addtoken`, data).then(
-      result => {
+      (result) => {
         if (result.success) {
           console.log("handleTplEdit_fullurl:", fullurl);
           window.open(fullurl);
         }
         this.setState({});
       },
-      error => {}
+      (error) => {}
     );
   };
 
   onRenameChangeText = (ev, text) => {
     //console.log("onRenameChangeText_text:", text);
     this.setState({
-      newTitle: text
+      newTitle: text,
     });
   };
-  handleRenameTpl = e => {
+  handleRenameTpl = (e) => {
     //重命名，方便搜索
     const record = this._selection._selectedItems[0].tplData;
     const _this = this;
@@ -498,7 +586,7 @@ export default class TplDetailsList extends React.Component {
             display: "inline-block",
             textAlign: "center",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           <TextField
@@ -516,18 +604,21 @@ export default class TplDetailsList extends React.Component {
         data.custplid = record.id;
         data.newTitle = _this.state.newTitle;
         console.log("handleRenameTpl_text:", data);
-        handlePost(`${apiPublicPath}getinfs/getautotplslist/reNameUserTpl`, data).then(result => {
+        handlePost(
+          `${apiPublicPath}getinfs/getautotplslist/reNameUserTpl`,
+          data
+        ).then((result) => {
           if (result.success === true) {
             // _this.setState({});
             _this.getDataList();
           }
         });
       },
-      onCancel() {}
+      onCancel() {},
     });
   };
 
-  handleDelTpl = e => {
+  handleDelTpl = (e) => {
     const record = this._selection._selectedItems[0].tplData;
     const _this = this;
     confirmDialog.success({
@@ -541,11 +632,14 @@ export default class TplDetailsList extends React.Component {
         data.realdel = true;
         data.user_id = _this.props.curUser.user_id;
         //console.log(data);
-        handlePost(`${apiPublicPath}getinfs/getautotplslist/deluserTpl`, data).then(result => {
+        handlePost(
+          `${apiPublicPath}getinfs/getautotplslist/deluserTpl`,
+          data
+        ).then((result) => {
           DialogAlert.success({
             title: "删除排版方案结果",
             content: result.msg,
-            time: 2000
+            time: 2000,
           });
           if (result.success === true) {
             // _this.setState({});
@@ -553,11 +647,11 @@ export default class TplDetailsList extends React.Component {
           }
         });
       },
-      onCancel() {}
+      onCancel() {},
     });
   };
 
-  handleDelAllTpl = e => {
+  handleDelAllTpl = (e) => {
     //删除所有选中方案
     console.log("tplList_handleDelTpl_e:", e);
     console.log("handleDelAllTpl._selection:", this._selection);
@@ -566,7 +660,7 @@ export default class TplDetailsList extends React.Component {
     let delId = [];
     if (this._selection_isAllSelected === true) {
       //判断是否被筛选了
-      this._selection._items.map(item => delId.push(item.tplData.id));
+      this._selection._items.map((item) => delId.push(item.tplData.id));
     } else {
       let Indices = this._selection._exemptedIndices;
       if (Indices[0] === undefined) {
@@ -597,18 +691,21 @@ export default class TplDetailsList extends React.Component {
           data.realdel = true;
           data.user_id = _this.props.curUser.user_id;
           //console.log(data);
-          handlePost(`${apiPublicPath}getinfs/getautotplslist/delBatchTpl`, data).then(result => {
+          handlePost(
+            `${apiPublicPath}getinfs/getautotplslist/delBatchTpl`,
+            data
+          ).then((result) => {
             if (result.success === true) {
               DialogAlert.success({
                 title: "批量删除排版方案",
                 content: result.msg,
-                time: 2000
+                time: 2000,
               });
               _this.getDataList();
             }
           });
         },
-        onCancel() {}
+        onCancel() {},
       });
     }
   };
@@ -627,7 +724,7 @@ export default class TplDetailsList extends React.Component {
     }
     if (this._selection_isAllSelected === true) {
       //判断是否被筛选了
-      this._selection._items.map(item => delId.push(item.tplData.id));
+      this._selection._items.map((item) => delId.push(item.tplData.id));
     } else {
       let Indices = this._selection._exemptedIndices;
       for (let i = 0; i < itemNum; i++) {
@@ -645,19 +742,22 @@ export default class TplDetailsList extends React.Component {
       data.share = direct;
       data.user_id = this.props.curUser.user_id;
       //console.log(data);
-      handlePost(`${apiPublicPath}getinfs/getautotplslist/shareBatchTpl`, data).then(result => {
+      handlePost(
+        `${apiPublicPath}getinfs/getautotplslist/shareBatchTpl`,
+        data
+      ).then((result) => {
         if (result.success === true) {
           DialogAlert.success({
             title: "批量分享排版方案",
             content: result.msg,
-            time: 2000
+            time: 2000,
           });
         }
       });
     }
   };
   composeInsert(tplData, xhr) {
-    composeDocInsert(this.props,tplData,xhr,"aidocx.com");
+    composeDocInsert(this.props, tplData, xhr, "aidocx.com");
   }
   //直接排版
   handleComposeClick = (tplData, e) => {
@@ -667,11 +767,12 @@ export default class TplDetailsList extends React.Component {
       this.state.curUser === undefined ||
       this.state.curUser.user_id === ""
     ) {
-    UploadDocContent(
-      `${apiPublicPath}tools/composeFilesRecord`,
-      "0",this.state.curUser.user_id,
-      this.composeInsert.bind(this, tplData)
-    );
+      UploadDocContent(
+        `${apiPublicPath}tools/composeFilesRecord`,
+        "0",
+        this.state.curUser.user_id,
+        this.composeInsert.bind(this, tplData)
+      );
     }
   };
 }

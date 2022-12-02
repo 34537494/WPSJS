@@ -4,9 +4,9 @@ import * as userAction from "../actions";
   
 export const current = handleActions(
   {
-    [combineActions(userAction.loginFinished, userAction.signupFinished, userAction.checkloginFinished, userAction.logout)]: {
+    [combineActions(userAction.loginFinished, userAction.signupFinished, userAction.checkloginFinished, userAction.logout,userAction.checkfinanceyearFinished)]: {
       next(state, action) {
-        return action.payload;
+        return action.payload;//实际上是web请求返回的结果，作为新的状态（也就是前端的数据）
       }
     }
   },
@@ -20,6 +20,18 @@ export const isLoading = handleActions(
     },
     [combineActions(userAction.loginFinished, userAction.signupFinished)]() {
       return false;
+    }
+  },
+  false
+);
+
+export const financeyears = handleActions(
+  {
+    [combineActions(userAction.checkfinanceyearFinished)]: {
+      next(state, action) {
+        console.log("financeyears_return:",action)
+        return action.payload;//实际上是cookie
+      }
     }
   },
   false
@@ -46,5 +58,6 @@ export const modalVisible = handleActions(
 export default combineReducers({
   current,
   isLoading,
+  financeyears,
   modalVisible,
 });

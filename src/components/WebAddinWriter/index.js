@@ -8,7 +8,7 @@ import Three from './WriteComponents/pages/edit';
 import Four from './WriteComponents/pages/four';
  
  
-import { WebAddinWriterFillTable, WebAddinWriterRepository,WebAddinWriterMergeDocs,WebAddinWriterExpand,fillFinanceTable} from "../App";
+import { WebAddinWriterFillTable, WebAddinWriterRepository,WebAddinWriterMergeDocs,WebAddinWriterExpand,WebAddinWriterHeader,fillFinanceTable} from "../App";
 //import fillFinanceTable from './WriteComponents/pages/fillFinanceTable';
 const { Content } = Layout;
     //  <Redirect from="/" to="/writer/Repository" />
@@ -68,6 +68,8 @@ class WriterPane extends React.Component {
                 <Route path="/writer/fillTable" component={WebAddinWriterFillTable} />
                 <Route path="/writer/fillFinanceTable" component={fillFinanceTable} />
                 <Route path="/writer/Repository" component={WebAddinWriterRepository} />
+                
+                <Route path="/writer/header" component={WebAddinWriterHeader} />
                 <Route render={()=><Redirect to='/writer/fillTable'/>}/>
               </Switch>
               </Router>

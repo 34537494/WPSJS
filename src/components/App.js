@@ -139,6 +139,12 @@ export const WebAddinWriterExpand = Loadable({
   timeout: 10000,
 });
 
+export const WebAddinWriterHeader = Loadable({
+  loader: () => import("./WebAddinWriter/WriteComponents/pages/header"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
 /*
 const WebAddinOtherFun = Loadable({
     loader: () => import("./WebAddinOtherFun"),

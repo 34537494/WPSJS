@@ -35,7 +35,7 @@ class Navigator extends Component {
               <Menu.Item key="7" icon={<DeliveredProcedureOutlined /> }><NavLink to="/writer/fillTable">填充表格</NavLink></Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup key="g8" >
-              <Menu.Item key="8" icon={<ShopOutlined /> }><NavLink to="/writer/Repository">内容仓库</NavLink></Menu.Item>
+          <Menu.Item key="8" icon={<ShopOutlined /> }><NavLink to="/writer/Repository">内容仓库</NavLink></Menu.Item>
           </Menu.ItemGroup>
         </Menu>
       </Sider>

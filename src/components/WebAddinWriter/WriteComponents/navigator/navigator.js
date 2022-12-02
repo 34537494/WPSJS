@@ -63,6 +63,11 @@ class Navigator extends Component {
               <NavLink to="/writer/Repository">内容库</NavLink>
             </Menu.Item>
           </Menu.ItemGroup>
+          <Menu.ItemGroup key="g9">
+            <Menu.Item key="9" icon={<TableOutlined />}>
+              <NavLink to="/writer/Table">表格插入</NavLink>
+            </Menu.Item>
+          </Menu.ItemGroup>
         </Menu>
       </Sider>
     );

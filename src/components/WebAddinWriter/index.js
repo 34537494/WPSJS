@@ -90,6 +90,10 @@ class WriterPane extends React.Component {
                       path="/writer/Repository"
                       component={WebAddinWriterRepository}
                     />
+                    <Route
+                      path="/writer/Table"
+                      component={WebAddinWriterRenderTable}
+                    />
                     <Route render={() => <Redirect to="/writer/fillTable" />} />
                   </Switch>
                 </Router>

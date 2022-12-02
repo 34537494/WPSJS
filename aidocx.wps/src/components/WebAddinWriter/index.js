@@ -18,7 +18,6 @@ import {
   WebAddinWriterMergeDocs,
   WebAddinWriterExpand,
   fillFinanceTable,
-  WebAddinWriterContentLib,
 } from "../App";
 //import fillFinanceTable from './WriteComponents/pages/fillFinanceTable';
 const { Content } = Layout;
@@ -90,10 +89,6 @@ class WriterPane extends React.Component {
                     <Route
                       path="/writer/Repository"
                       component={WebAddinWriterRepository}
-                    />
-                    <Route
-                      path="/writer/contentLib"
-                      component={WebAddinWriterContentLib}
                     />
                     <Route render={() => <Redirect to="/writer/fillTable" />} />
                   </Switch>

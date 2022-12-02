@@ -131,12 +131,6 @@ export const WebAddinWriterRepository = Loadable({
   delay: 1500,
   timeout: 10000,
 });
-export const WebAddinWriterContentLib = Loadable({
-  loader: () => import("./WebAddinWriter/WriteComponents/pages/contentLib"),
-  loading: loadingComponent,
-  delay: 1500,
-  timeout: 10000,
-});
 
 export const WebAddinWriterMergeDocs = Loadable({
   loader: () => import("./WebAddinWriter/WriteComponents/pages/merge"),

@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions';
- import { identity } from 'ramda';
+// import { identity } from 'ramda';
 //https://www.jianshu.com/p/d2615a7d725e
 export const {
   user: {
@@ -12,7 +12,10 @@ export const {
     signupFinished,
     logoutFinished,
     showModal,
-    hideModal
+    hideModal,
+    checkCookie,
+    checkfinanceyear,
+    checkfinanceyearFinished
    },
 } = createActions({
   USER: {
@@ -43,6 +46,8 @@ export const {
     SIGNUP_FINISHED:null,
     LOGOUT_FINISHED:null,
     SHOW_MODAL:null,
-    HIDE_MODAL:null
+    HIDE_MODAL:null,
+    CHECKFINANCEYEAR:null,
+    CHECKFINANCEYEAR_FINISHED:null,
   },
 });

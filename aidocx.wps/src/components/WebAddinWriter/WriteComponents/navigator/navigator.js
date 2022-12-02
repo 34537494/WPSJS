@@ -60,12 +60,7 @@ class Navigator extends Component {
           </Menu.ItemGroup>
           <Menu.ItemGroup key="g8">
             <Menu.Item key="8" icon={<ShopOutlined />}>
-              <NavLink to="/writer/Repository">内容仓库</NavLink>
-            </Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup key="g9">
-            <Menu.Item key="9" icon={<ShopOutlined />}>
-              <NavLink to="/writer/contentLib">内容库</NavLink>
+              <NavLink to="/writer/Repository">内容库</NavLink>
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu>

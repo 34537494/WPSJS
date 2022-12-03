@@ -11,6 +11,8 @@ import {
   FileWordOutlined,
   ShopOutlined,
   DeliveredProcedureOutlined,
+  TableOutlined,
+  FormOutlined
 } from "@ant-design/icons";
 // import "./index.css"
 const { Sider } = Layout;
@@ -63,11 +65,14 @@ class Navigator extends Component {
               <NavLink to="/writer/Repository">内容库</NavLink>
             </Menu.Item>
           </Menu.ItemGroup>
-          <Menu.ItemGroup key="g8" >
-          <Menu.Item key="8" icon={<ShopOutlined /> }><NavLink to="/writer/Repository">内容仓库</NavLink></Menu.Item>
           <Menu.ItemGroup key="g9">
             <Menu.Item key="9" icon={<TableOutlined />}>
               <NavLink to="/writer/Table">表格插入</NavLink>
+            </Menu.Item>
+          </Menu.ItemGroup>
+          <Menu.ItemGroup key="g10">
+            <Menu.Item key="10" icon={<FormOutlined />}>
+              <NavLink to="/writer/header">斜线表头</NavLink>
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu>

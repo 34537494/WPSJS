@@ -1,24 +1,33 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import Navigator from "./WriteComponents/navigator/navigator";
-import { Layout } from "antd";
-import Two from "./WriteComponents/pages/function";
-import Three from "./WriteComponents/pages/edit";
-import Four from "./WriteComponents/pages/four";
+import { HashRouter as Router,Route, Switch,Redirect } from 'react-router-dom';
+import Navigator from './WriteComponents/navigator/navigator';
+import { Layout } from 'antd';
+import Two from './WriteComponents/pages/function';
+import Three from './WriteComponents/pages/edit';
+import Four from './WriteComponents/pages/four';
+ 
+ 
+import { WebAddinWriterFillTable, WebAddinWriterRepository,WebAddinWriterMergeDocs,WebAddinWriterExpand,WebAddinWriterHeader,fillFinanceTable,WebAddinWriterRenderTable} from "../App";
+// import {
+//   HashRouter as Router,
+//   Route,
+//   Switch,
+//   Redirect,
+// } from "react-router-dom";
+// import Navigator from "./WriteComponents/navigator/navigator";
+// // import { Layout } from "antd";
+// import Two from "./WriteComponents/pages/function";
+// import Three from "./WriteComponents/pages/edit";
+// import Four from "./WriteComponents/pages/four";
 
-import {
-  WebAddinWriterFillTable,
-  WebAddinWriterRepository,
-  WebAddinWriterMergeDocs,
-  WebAddinWriterExpand,
-  fillFinanceTable,
-} from "../App";
+// import {
+//   WebAddinWriterFillTable,
+//   WebAddinWriterRepository,
+//   WebAddinWriterMergeDocs,
+//   WebAddinWriterExpand,
+//   fillFinanceTable,
+// } from "../App";
 //import fillFinanceTable from './WriteComponents/pages/fillFinanceTable';
 const { Content } = Layout;
 //  <Redirect from="/" to="/writer/Repository" />
@@ -56,48 +65,33 @@ class WriterPane extends React.Component {
     //之前的结构就不修改了
     return (
       <div>
-        <Layout>
-          <Content style={{ padding: "0 " }}>
-            <Layout
-              className="site-layout-background"
-              style={{ padding: " 0" }}
-            >
-              <Navigator />
-              {console.log("reload:_WriterPane:", this.props)}
-              <Content style={{ padding: "0 ", minHeight: 1000 }}>
-                <Router>
-                  <Switch>
-                    <Route path="/writer/function" component={Two} />
-                    <Route path="/writer/edit" component={Three} />
-                    <Route path="/writer/four" component={Four} />
-                    <Route
-                      path="/writer/expand"
-                      component={WebAddinWriterExpand}
-                    />
-                    <Route
-                      path="/writer/merge"
-                      component={WebAddinWriterMergeDocs}
-                    />
-                    <Route
-                      path="/writer/fillTable"
-                      component={WebAddinWriterFillTable}
-                    />
-                    <Route
-                      path="/writer/fillFinanceTable"
-                      component={fillFinanceTable}
-                    />
-                    <Route
-                      path="/writer/Repository"
-                      component={WebAddinWriterRepository}
-                    />
-                    <Route render={() => <Redirect to="/writer/fillTable" />} />
-                  </Switch>
-                </Router>
-              </Content>
-            </Layout>
-          </Content>
-        </Layout>
-      </div>
+      <Layout>
+        <Content style={{ padding: '0 ' }}>
+          <Layout className="site-layout-background" style={{ padding: ' 0' }}>
+            <Navigator />
+            {console.log("reload:_WriterPane:",this.props)}
+            <Content style={{ padding: '0 ', minHeight: 1000 ,}}>
+            <Router>
+              <Switch>
+                <Route path="/writer/function" component={Two} />
+                <Route path="/writer/edit" component={Three} />
+                <Route path="/writer/four" component={Four} />
+                <Route path="/writer/expand" component={WebAddinWriterExpand} />
+                <Route path="/writer/merge" component={WebAddinWriterMergeDocs} />
+                <Route path="/writer/fillTable" component={WebAddinWriterFillTable} />
+                <Route path="/writer/fillFinanceTable" component={fillFinanceTable} />
+                <Route path="/writer/Repository" component={WebAddinWriterRepository} />
+                <Route path="/writer/Table" component={WebAddinWriterRenderTable} />
+                <Route path="/writer/header" component={WebAddinWriterHeader} />
+                <Route render={()=><Redirect to='/writer/fillTable'/>}/>
+              </Switch>
+              </Router>
+            </Content>
+          </Layout>
+        </Content>
+      </Layout>
+    
+    </div>
     );
   }
 }

@@ -84,6 +84,8 @@ class FillTable extends React.Component {
         Company.公司ID = 1;
         handlePost(`${apiWritePath}getinf/getAll/getAllFinances`, Company).then((result) => {
             // this.props.history.push("/");
+            console.log("path",`${apiWritePath}getinf/getAll/getAllFinances`)
+
             console.log("get-Repository-tree-result:", result);
             if (result.success === true) {
                 //加载数据到tree中

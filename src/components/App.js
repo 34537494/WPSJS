@@ -89,6 +89,12 @@ const WebAddinCompose = Loadable({
   delay: 1500,
   timeout: 10000,
 });
+const WebAddinQuestionBank = Loadable({
+  loader: () => import("./WebAddinQuestionBank"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
 
 export const fillFinanceTable = Loadable({
   loader: () =>
@@ -158,6 +164,44 @@ export const WebAddinWriterRenderTable = Loadable({
   delay: 1500,
   timeout: 10000,
 });
+//题库系统相关组件
+export const WebAddinQuestionBankSetBook = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/setBook"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinQuestionBankSetCourse = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/setCourse"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinQuestionBankSetQuestion = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/setQuestion"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinQuestionBankSetQuestionType = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/setQuestionType"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinQuestionBankCreatePaper = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/createPaper"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+export const WebAddinQuestionBankHistoryPaper = Loadable({
+  loader: () => import("./WebAddinQuestionBank/QuestionBankPages/historyPaper"),
+  loading: loadingComponent,
+  delay: 1500,
+  timeout: 10000,
+});
+
 
 /*
 const WebAddinOtherFun = Loadable({
@@ -352,6 +396,7 @@ class App extends React.Component {
               <Route path="/AboutUs" component={WebAddinAboutUs} />
               <Route path="/Compose" component={WebAddinCompose} />
               <Route path="/Writer" component={WebAddinWriter} />
+              <Route path="/QuestionBank" component={WebAddinQuestionBank} />
               <Route render={() => <Redirect to="/" />} />
             </Switch>
           </Router>

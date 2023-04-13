@@ -1,0 +1,15 @@
+#selectedTable {
+    width: 44vw;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#table {
+    width: 54vw;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.sizeSelect {
+    width: 30vw;
+}

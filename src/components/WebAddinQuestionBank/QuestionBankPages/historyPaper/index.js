@@ -3,6 +3,8 @@ import "./style.css"
 import { Select, Table, Input, Button } from 'antd'
 import { handlePost } from "../../../WebAddinCommon";
 import { apiPublicPath, apiWritePath } from "../../../../settings";
+import sizeInfo from "../createPaper/sizeInfo"
+
 const { Option } = Select;
 const { Search } = Input;
 
@@ -16,8 +18,12 @@ class HistoryPaper extends Component {
       bookID: '',
       courseID: '',
       historyPaperInf: [],
-      questionTypeList:[],
+      questionTypeList: [],
       loading: false,
+      titleSize: 36,
+      typeSize: 21,
+      bodySize: 21,
+      sizeInfo: sizeInfo,
     };
   }
   componentWillUnmount() {
@@ -89,89 +95,117 @@ class HistoryPaper extends Component {
     let unit = ['', '十', '百', '千', '万']
     num = parseInt(num)
     let getWan = (temp) => {
-        let strArr = temp.toString().split('').reverse()
-        let newNum = ''
-        let newArr = []
-        strArr.forEach((item, index) => {
-            newArr.unshift(item === '0' ? changeNum[item] : changeNum[item] + unit[index])
-        })
-        let numArr = []
+      let strArr = temp.toString().split('').reverse()
+      let newNum = ''
+      let newArr = []
+      strArr.forEach((item, index) => {
+        newArr.unshift(item === '0' ? changeNum[item] : changeNum[item] + unit[index])
+      })
+      let numArr = []
+      newArr.forEach((m, n) => {
+        if (m !== '零') numArr.push(n)
+      })
+      if (newArr.length > 1) {
         newArr.forEach((m, n) => {
-            if (m !== '零') numArr.push(n)
+          if (newArr[newArr.length - 1] === '零') {
+            if (n <= numArr[numArr.length - 1]) {
+              newNum += m
+            }
+          } else {
+            newNum += m
+          }
         })
-        if (newArr.length > 1) {
-            newArr.forEach((m, n) => {
-                if (newArr[newArr.length - 1] === '零') {
-                    if (n <= numArr[numArr.length - 1]) {
-                        newNum += m
-                    }
-                } else {
-                    newNum += m
-                }
-            })
-        } else {
-            newNum = newArr[0]
-        }
+      } else {
+        newNum = newArr[0]
+      }
 
-        return newNum
+      return newNum
     }
     let overWan = Math.floor(num / 10000)
     let noWan = num % 10000
     if (noWan.toString().length < 4) {
-        noWan = '0' + noWan
+      noWan = '0' + noWan
     }
     return overWan ? getWan(overWan) + '万' + getWan(noWan) : getWan(num)
-}
-
-  createPaper = (e) => {
-    let historyInf = this.state.historyPaperInf.find(item=>item.试卷ID===e.target.id)
-    console.log(historyInf.问题类型对应ID.split(","));
-    this.getQuestionXml(historyInf,historyInf.问题对应ID.split(","),historyInf.问题类型对应ID.split(","))
-
   }
 
-  getQuestionXml = (historyInf,questionids, typeIndex) => {
+  createPaper = (e) => {
+    let historyInf = this.state.historyPaperInf.find(item => item.试卷ID === e.target.id)
+    console.log(historyInf.问题类型对应ID.split(","));
+    // this.getFullXml(historyInf, historyInf.问题对应ID.split(","), historyInf.问题类型对应ID.split(","))
+    this.getFullXml(historyInf, historyInf.问题对应ID, historyInf.问题类型对应ID)
+  }
+
+  // getQuestionXml = (historyInf,questionids, typeIndex) => {
+  //   const Information = {};
+  //   Information.questionids = questionids.join();
+  //   console.log(questionids, typeIndex);
+  //   this.setState({ loading: true })
+  //   handlePost(`${apiWritePath}question_bank/getinf/getquestionxml`, Information).then(
+  //       (result) => {
+  //           console.log("get-Repository-tree-result:", result);
+  //           let wpsapp = wps.WpsApplication()
+  //           let newdoc = wpsapp.Documents.Add()
+  //           let questionNumber = 1;
+  //           let typeNumber = 1;
+
+
+  //           newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertBefore(historyInf['试卷名'] + "\r")
+  //           wpsapp.ActiveDocument.Paragraphs.Item(1).Alignment = 1   //居中
+  //           wpsapp.ActiveDocument.Paragraphs.Item(1).Range.Font.Bold = true
+  //           wpsapp.ActiveDocument.Paragraphs.Item(1).Range.Font.Size = 18
+
+
+  //           for (let i = 0; i < result.file.length; i++) {
+  //               console.log(typeIndex[i] !== typeIndex[i - 1])
+  //               if (typeIndex[i] !== typeIndex[i - 1]) {
+  //                   questionNumber = 1;
+  //                   newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertBefore("\n\r" + this.toChineseNum(typeNumber) + "、" + this.state.questionTypeList.find(item => item.试题类型ID === typeIndex[i]).题型名称)
+  //                   console.log(wpsapp.ActiveDocument.Paragraphs.Item(wpsapp.ActiveDocument.Paragraphs.Count).Range.Font);
+  //                   wpsapp.ActiveDocument.Paragraphs.Item(wpsapp.ActiveDocument.Paragraphs.Count).Range.Font.Bold = true
+  //                   typeNumber += 1;
+  //               }
+  //               let lastEnd = newdoc.Range().End;
+
+  //               // console.log(newdoc.Range(newdoc.Range().End,newdoc.Range().End));
+  //               newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertXML([...result.file.find(item => item.id === questionids[i]).xml].join(""))
+  //               newdoc.Range(lastEnd, newdoc.Range().End).InsertBefore(questionNumber + ".")
+  //               questionNumber += 1;
+  //           }
+  //           this.setState({ loading: false })
+
+  //       },
+  //       (error) => { console.log(error); }
+  //   );
+  // }
+
+  getFullXml = (historyInf, questionids, typeIndex) => {
     const Information = {};
-    Information.questionids = questionids.join();
-    console.log(questionids, typeIndex);
+    Information.questionids = questionids;
+    Information.typeindex = typeIndex;
+    Information.titleSize = 36;
+    Information.typeSize = 21;
+    Information.bodySize = 21;
+    Information.title = historyInf['试卷名'];
+    console.log(Information);
     this.setState({ loading: true })
-    handlePost(`${apiWritePath}question_bank/getinf/getquestionxml`, Information).then(
-        (result) => {
-            console.log("get-Repository-tree-result:", result);
-            let wpsapp = wps.WpsApplication()
-            let newdoc = wpsapp.Documents.Add()
-            let questionNumber = 1;
-            let typeNumber = 1;
+    handlePost(`${apiWritePath}question_bank/getinf/getfullxml`, Information).then(
+      (result) => {
+        console.log("get-Repository-tree-result:", result);
 
 
-            newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertBefore(historyInf['试卷名'] + "\r")
-            wpsapp.ActiveDocument.Paragraphs.Item(1).Alignment = 1   //居中
-            wpsapp.ActiveDocument.Paragraphs.Item(1).Range.Font.Bold = true
-            wpsapp.ActiveDocument.Paragraphs.Item(1).Range.Font.Size = 18
+        let wpsapp = wps.WpsApplication()
+        let newdoc = wpsapp.Documents.Add()
+        newdoc.Range(newdoc.Range().Start, newdoc.Range().End).InsertXML(result.file)
+        this.setState({ loading: false })
 
-
-            for (let i = 0; i < result.file.length; i++) {
-                console.log(typeIndex[i] !== typeIndex[i - 1])
-                if (typeIndex[i] !== typeIndex[i - 1]) {
-                    questionNumber = 1;
-                    newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertBefore("\n\r" + this.toChineseNum(typeNumber) + "、" + this.state.questionTypeList.find(item => item.试题类型ID === typeIndex[i]).题型名称)
-                    console.log(wpsapp.ActiveDocument.Paragraphs.Item(wpsapp.ActiveDocument.Paragraphs.Count).Range.Font);
-                    wpsapp.ActiveDocument.Paragraphs.Item(wpsapp.ActiveDocument.Paragraphs.Count).Range.Font.Bold = true
-                    typeNumber += 1;
-                }
-                let lastEnd = newdoc.Range().End;
-
-                // console.log(newdoc.Range(newdoc.Range().End,newdoc.Range().End));
-                newdoc.Range(newdoc.Range().End, newdoc.Range().End).InsertXML([...result.file.find(item => item.id === questionids[i]).xml].join(""))
-                newdoc.Range(lastEnd, newdoc.Range().End).InsertBefore(questionNumber + ".")
-                questionNumber += 1;
-            }
-            this.setState({ loading: false })
-
-        },
-        (error) => { console.log(error); }
+      },
+      (error) => {
+        console.log(error);
+        this.setState({ loading: false })
+      }
     );
-}
+  }
 
   onSearch = (event) => {
     let papers = this.state.historyPaperInf;
@@ -196,7 +230,32 @@ class HistoryPaper extends Component {
     // console.log(this.state);
   }
 
+  setTitleSize = (e) => {
+    if (e === undefined) {
+      this.setState({ titleSize: 36 })
+    }
+    else {
+      this.setState({ titleSize: this.state.sizeInfo[e - 1].size })
+    }
+  }
 
+  setTypeSize = (e) => {
+    if (e === undefined) {
+      this.setState({ typeSize: 21 })
+    }
+    else {
+      this.setState({ typeSize: this.state.sizeInfo[e - 1].size })
+    }
+  }
+
+  setBodySize = (e) => {
+    if (e === undefined) {
+      this.setState({ bodySize: 21 })
+    }
+    else {
+      this.setState({ bodySize: this.state.sizeInfo[e - 1].size })
+    }
+  }
 
   test = (e) => {
     console.log(this.state);
@@ -209,6 +268,54 @@ class HistoryPaper extends Component {
       <div>
         <p>已有试卷</p>
         <Button onClick={this.test}>test</Button>
+        <div className="sizeSelect">
+          {/* <div > */}
+            <p style={{fontSize:"15px",marginTop:"10px"}}>设置标题字体</p>
+            <Select
+              // style={{ minwidth: "130px" }}
+              value={this.state.titleSize}
+
+              // placeholder="默认大小为36"
+              onChange={this.setTitleSize.bind(this)}
+              allowClear
+              showSearch
+              optionFilterProp="children"
+            >
+              {this.state.sizeInfo?.map(item =>
+                (<Option key={item.ID}>{item.name}</Option>))}
+            </Select>
+          {/* </div>
+          <div> */}
+            <p style={{fontSize:"15px",marginTop:"10px"}}>设置试题类型字体</p>
+            <Select
+              value={this.state.typeSize}
+
+              onChange={this.setTypeSize.bind(this)}
+              allowClear
+              showSearch
+              optionFilterProp="children"
+            >
+              {this.state.sizeInfo?.map(item =>
+                (<Option key={item.ID}>{item.name}</Option>))}
+            </Select>
+          {/* </div>
+          <div> */}
+            <p style={{fontSize:"15px",marginTop:"10px"}}>设置试题字体</p>
+            <Select
+              // style={{ minwidth: "130px" }}
+              value={this.state.bodySize}
+              // placeholder="默认大小为21"
+              onChange={this.setBodySize.bind(this)}
+              allowClear
+              showSearch
+              optionFilterProp="children"
+            >
+              {this.state.sizeInfo?.map(item =>
+                (<Option key={item.ID}>{item.name}</Option>))}
+            </Select>
+          </div>
+        {/* </div> */}
+        {/* <p>若不对字体进行设置，则按照默认字体设置</p> */}
         <div style={{ display: "flex" }}>
           <Select
             placeholder="选择课程"
@@ -228,7 +335,7 @@ class HistoryPaper extends Component {
             {this.state.historyPaperInf?.map(item =>
               (<Option key={item.书本ID}>{item.书名}</Option>))}
           </Select>
-          <Search placeholder="input search text" onSearch={this.onSearch} enterButton />
+          <Search placeholder="输入试卷名进行查找" onSearch={this.onSearch} enterButton />
         </div>
 
         <Table

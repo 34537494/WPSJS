@@ -9,3 +9,10 @@
     min-width: 200px;
     margin:auto;
 }
+
+.sizeSelect {
+    display: flex;
+    margin: 0 10px;
+    justify-content: space-between;
+    align-items: center;
+}

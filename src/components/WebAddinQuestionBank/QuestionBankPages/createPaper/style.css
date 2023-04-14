@@ -11,5 +11,7 @@
 }
 
 .sizeSelect {
-    width: 30vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

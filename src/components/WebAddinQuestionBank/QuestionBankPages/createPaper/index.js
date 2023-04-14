@@ -140,15 +140,30 @@ class CreatePaper extends Component {
   }
 
   setTitleSize = (e) => {
-    this.setState({ titleSize: this.state.sizeInfo[e - 1].size })
+    if (e === undefined) {
+      this.setState({ titleSize: 36 })
+    }
+    else {
+      this.setState({ titleSize: this.state.sizeInfo[e - 1].size })
+    }
   }
 
   setTypeSize = (e) => {
-    this.setState({ typeSize: this.state.sizeInfo[e - 1].size })
+    if (e === undefined) {
+      this.setState({ typeSize: 21 })
+    }
+    else {
+      this.setState({ typeSize: this.state.sizeInfo[e - 1].size })
+    }
   }
 
   setBodySize = (e) => {
-    this.setState({ bodySize: this.state.sizeInfo[e - 1].size })
+    if (e === undefined) {
+      this.setState({ bodySize: 21 })
+    }
+    else {
+      this.setState({ bodySize: this.state.sizeInfo[e - 1].size })
+    }
   }
 
   onFinish = (values) => {
@@ -279,11 +294,11 @@ class CreatePaper extends Component {
               label="选择字体大小"
               name="size"
             >
-              <div style={{ display: "flex" }}>
-                <div>
+              <div className="sizeSelect">
+                <div >
                   <p>设置标题字体</p>
                   <Select
-                    style={{ width: "130px" }}
+                    // style={{ minwidth: "130px" }}
                     placeholder="默认大小为36"
                     onChange={this.setTitleSize.bind(this)}
                     allowClear
@@ -297,7 +312,7 @@ class CreatePaper extends Component {
                 <div>
                   <p>设置试题类型字体</p>
                   <Select
-                    style={{ width: "130px" }}
+                    // style={{ minwidth: "130px" }}
                     placeholder="默认大小为21"
                     onChange={this.setTypeSize.bind(this)}
                     allowClear
@@ -311,7 +326,7 @@ class CreatePaper extends Component {
                 <div>
                   <p>设置试题字体</p>
                   <Select
-                    style={{ width: "130px" }}
+                    // style={{ minwidth: "130px" }}
                     placeholder="默认大小为21"
                     onChange={this.setBodySize.bind(this)}
                     allowClear

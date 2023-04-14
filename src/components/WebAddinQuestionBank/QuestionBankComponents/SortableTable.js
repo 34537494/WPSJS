@@ -10,8 +10,6 @@ import { CSS } from '@dnd-kit/utilities';
 import { handlePost } from "../../WebAddinCommon";
 import { apiPublicPath, apiWritePath } from "../../../settings";
 import { Button, Table } from 'antd';
-// import { useState } from 'react';
-const iconv = require('iconv-lite');
 
 /* global wps:false */
 
@@ -60,6 +58,7 @@ class SortaleTable extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // 监控父组件传递的所选择的问题的变化，进行页面更新
         console.log(this.state.selectedQuestion.length, nextProps.selectedQuestion.length);
         // if (this.state.selectedQuestion.length !== nextProps.selectedQuestion.length) {
         // let arr = [...nextProps.selectedQuestion]
@@ -75,13 +74,10 @@ class SortaleTable extends Component {
         let newArr = [...map.values()]
         // console.log(newArr);
         this.setSelectedQuestion(newArr)
-
-        // console.log(nextProps.selectedQuestion);
-        // this.setSelectedQuestion(nextProps.selectedQuestion)
-
     }
 
     toChineseNum(num) {
+        // 将小写数字转换为中文数字，方便大题题号命名
         let changeNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
         let unit = ['', '十', '百', '千', '万']
         num = parseInt(num)
@@ -121,6 +117,7 @@ class SortaleTable extends Component {
     }
 
     getQuestionXml = (questionids, typeIndex) => {
+        // 前端进行拼接的方法，运行速度较慢
         const Information = {};
         Information.questionids = questionids.join();
         Information.typeindex = typeIndex.join();
@@ -172,7 +169,7 @@ class SortaleTable extends Component {
         );
     }
 
-    getfullXml = (questionids, typeIndex) => {
+    getFullXml = (questionids, typeIndex) => {
         const Information = {};
         Information.questionids = questionids.join();
         Information.typeindex = typeIndex.join();
@@ -180,17 +177,19 @@ class SortaleTable extends Component {
         Information.typeSize = this.props.typeSize;
         Information.bodySize = this.props.bodySize;
         Information.title = this.props.paperName;
-        console.log(Information);
         this.setState({ loading: true })
         handlePost(`${apiWritePath}question_bank/getinf/getfullxml`, Information).then(
             (result) => {
                 console.log("get-Repository-tree-result:", result);
-
-
                 let wpsapp = wps.WpsApplication()
                 let newdoc = wpsapp.Documents.Add()
+                // 创建文档
                 newdoc.Range(newdoc.Range().Start, newdoc.Range().End).InsertXML(result.file)
-                // this.uploadPaperInf(sumQNumber,sumTNumber,questionids,typeIndex)
+                // 将后端拼接好的xml插入文档
+                let sumQNumber = questionids.length
+                let sumTNumber = Array.from(new Set(typeIndex)).length
+                this.uploadPaperInf(sumQNumber,sumTNumber,questionids,typeIndex)
+                // 将试卷试题进行记录，方便之后再次调取
             },
             (error) => { console.log(error); }
         );
@@ -198,7 +197,6 @@ class SortaleTable extends Component {
 
     uploadPaperInf = (sumQNumber, sumTNumber, questionids, typeIndex) => {
         const Information = {};
-
         Information.bookID = this.props.bookID;
         Information.courseID = this.props.courseID;
         Information.paperName = this.props.paperName;
@@ -206,8 +204,6 @@ class SortaleTable extends Component {
         Information.tNumber = sumTNumber;
         Information.questionids = questionids.join();
         Information.typeindex = typeIndex.join();
-
-        console.log(Information);
         handlePost(`${apiWritePath}question_bank/upload/uploadpaper`, Information).then(
             (result) => {
                 if (result.success === true) {
@@ -216,7 +212,6 @@ class SortaleTable extends Component {
             },
             (error) => { console.log(error); }
         );
-        // console.log(sumQNumber,sumTNumber,questionids);
     }
 
 
@@ -254,7 +249,6 @@ class SortaleTable extends Component {
     }
 
     setSelectedQuestion = (data) => {
-        // console.log(data);
         this.setState({ selectedQuestion: data })
     }
 
@@ -269,10 +263,6 @@ class SortaleTable extends Component {
         if (active.id !== over?.id) {
             //判断位置是否发生改变
             let temps = this.state.selectedQuestion;
-            // console.log(temps.fliter(item=>item.key===[active.id-1]))
-            // console.log(temps.find(item=>item.key === active.id));
-            // console.log(temps.find(item=>item.key === over.id));
-            // console.log(active.id, over?.id);
             this.setSelectedQuestion(
                 // 将当前移动的（active）和将要移动到的（over）找到并替换顺序
                 arrayMove(
@@ -288,7 +278,7 @@ class SortaleTable extends Component {
         let questionids = this.state.selectedQuestion.map(item => item.试题ID)
         let typeIndex = this.state.selectedQuestion.map(item => item.题型分类)
         // this.getQuestionXml(questionids, typeIndex)
-        this.getfullXml(questionids, typeIndex)
+        this.getFullXml(questionids, typeIndex)
         // this.getQuestionXml(questionids, typeIndex)
     }
 

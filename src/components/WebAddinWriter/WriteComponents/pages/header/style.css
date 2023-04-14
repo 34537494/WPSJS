@@ -4,22 +4,25 @@ body, html {
     margin: 0;
 }
 #container {
-    width: 150px;
+    width: 100px;
     height: 90px;
     padding: 0px;
     border: #000000 2px solid;
     box-sizing: border-box;
+    /* box-sizing: initial; */
 }
 
 .textDiv1{
     width:20px ;
     height:20px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     text-align:center;
+    position: absolute;
 }
 .textDiv2{
     width:20px ;
     height:20px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     text-align:center;
+    position: absolute;
 }

@@ -19,3 +19,5 @@ git remote add origin 项目地址
 ```
 git clone 项目地址
 ```
+
+项目下载到本地后，使用`npm install --force`下载依赖（必要时可以添加`-g`）

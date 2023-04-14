@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import {
-  BlockOutlined,
   InboxOutlined,
-  UploadOutlined,
+
 } from "@ant-design/icons";
 import { message, Upload, Button } from "antd";
 import Fragments from "./fragments.js";

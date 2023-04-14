@@ -57,10 +57,11 @@ const Fragments = {
     }
   },
   fragDetail: async function (document) {
+    var postFlag = true;
     var paraNum = document.Paragraphs.Count; // 段落数量
     var paraLvs = new Array(paraNum + 1); // 段落大纲级别 Paragraph.OutlineLevel
     var isIntable = new Array(paraNum + 1);
-
+    var _that = this;
     var totalNum = 0;
     var i = 0;
     var lastIndex = 0;
@@ -72,18 +73,18 @@ const Fragments = {
     }
     paraLvs[i] = 10;
     for (i = 0; i < paraNum; i++) {
-      var XmlPart = new Array(); //知识单元文段xml
-      var PartLvl = new Array(); //知识单元大纲级别
-      var headText = new Array(); //知识单元标题文本
-      var TextPart = new Array(); //知识单元文段文本
-      var TextNote = new Array(); //知识单元批注
-      var ParaRef = new Array(); //知识单元partRange
+      var XmlPart = []; //知识单元文段xml
+      var PartLvl = []; //知识单元大纲级别
+      var headText = []; //知识单元标题文本
+      var TextPart = []; //知识单元文段文本
+      var TextNote = []; //知识单元批注
+      var ParaRef = []; //知识单元partRange
       getParaInfo(i); // 获取第i段落的信息
-      if (paraLvs[i] == 1 && isIntable[i] == 0) {
+      if (paraLvs[i] === 1 && isIntable[i] === 0) {
         // 如果选中部分开头部分不是一级大纲标题，那么找到第一个一级标题后开始
         for (var j = i + 1; j < paraNum; j++) {
           getParaInfo(j); // 获取第j段落的信息--从开始找下一个一级标题
-          if (paraLvs[j] == 1 && isIntable[j] == 0) {
+          if (paraLvs[j] === 1 && isIntable[j] === 0) {
             break;
           }
         }
@@ -93,7 +94,7 @@ const Fragments = {
           if (paraLvs[k] > paraLvs[i]) {
             for (var t = k + 1; t < j; t++) {
               // 不是正文就退出  此时t在下一个子标题或者高级标题
-              if (paraLvs[t] != 10) {
+              if (paraLvs[t] !== 10) {
                 break;
               }
             }
@@ -110,7 +111,7 @@ const Fragments = {
             var tmpOpenxml = PartRange.WordOpenXML;
             // console.log("tmpOpenxml:" + tmpOpenxml);
 
-            // 删除批注存在问题
+            // todo 删除批注存在问题
 
             // tmpOpenxml = DeleteComments(tmpOpenxml);
             //文段文本
@@ -147,8 +148,6 @@ const Fragments = {
             }
           }
         }
-        UploadXml.handleSuccess = this.handleSuccess;
-        UploadXml.handleFiled = this.handleFiled;
         // console.log("handleSuccess" + this.handleSuccess);
         UploadXml.keyStart = MainLvlIndex + 1;
         UploadXml.head = headText;
@@ -157,7 +156,7 @@ const Fragments = {
         UploadXml.textpart = TextPart;
         UploadXml.textnote = TextNote;
         UploadXml.PartRange = PartRange;
-        UploadXml.upload(this.handleSuccess, this.handleFiled);
+        postFlag = postFlag && UploadXml.upload(this.handleSuccess, this.handleFiled);
         // MainLvlIndex = UploadXml.keyStart - 1;
         // console.log("PartLvl.Count:" + PartLvl.length);
         MainLvlIndex = MainLvlIndex + PartLvl.length;
@@ -169,7 +168,13 @@ const Fragments = {
           i = j - 1;
         }
       }
+
       UploadXml.strJson = "";
+    }
+    if (postFlag) {
+      _that.handleSuccess();
+    } else {
+      _that.handleFiled();
     }
 
     // console.log("XmlPart", XmlPart);
@@ -186,7 +191,7 @@ const Fragments = {
           console.log("getTextRepositoryLastID", parseInt(result["msg"]));
           return parseInt(result["msg"]);
         },
-        (error) => {}
+        (error) => { }
       );
     }
     // 获取文段级别和表格信息
@@ -213,12 +218,12 @@ const Fragments = {
         documentXml.indexOf("<w:body>") + 8
       );
       documentXml = documentXml.slice(0, FirstParaStart.Length);
-      var StartMarks = new Array(
+      var StartMarks = [
         "<w:commentRangeStart ",
         "<w:commentRangeEnd ",
         "<w:commentReference "
-      );
-      var EndMarks = new Array("/>", "/>", "/>");
+      ];
+      var EndMarks = ["/>", "/>", "/>"];
       for (let i = 0; i < 3; i++) {
         documentXml = deletePart(documentXml, StartMarks[i], EndMarks[i]);
       }
@@ -229,7 +234,7 @@ const Fragments = {
       return Xml;
     }
     function deletePart(documentXml, StartMark, EndMark) {
-      if (documentXml.indexOf(StartMark) != -1) {
+      if (documentXml.indexOf(StartMark) !== -1) {
         var delPart = documentXml.split(StartMark);
         //如果原来有<w:numPr></w:numPr>，那么先删除掉
         for (var i = 1; i < delPart.Length; i++) {
@@ -262,10 +267,10 @@ const Fragments = {
       );
       documentXml = documentXml.slice(0, FirstParaStart.Length);
       let paraPart = documentXml.split("</w:p>");
-      var tmpText = new Array();
+      var tmpText = [];
       paraPart.forEach((Para) => {
         var wtPart = Para.split("</w:t>");
-        var txtPart = new Array();
+        var txtPart = [];
         wtPart.forEach((Part) => {
           txtPart.push(Part.substring(Part.lastIndexOf(">") + 1));
         });

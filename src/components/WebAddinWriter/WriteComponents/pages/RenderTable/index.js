@@ -1,52 +1,34 @@
 import React from "react";
-import { Button, Table } from "antd";
+import { Button, Table, Select } from "antd";
+import { apiWritePath } from "../../../../../settings";
 /* global wps:false */
 function RenderTable() {
-  const columns = [
-    {
-      title: "学生学号",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "学生姓名",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "学生年龄",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "学生性别",
-      dataIndex: "sex",
-      key: "sex",
-    },
-    {
-      title: "学生专业",
-      dataIndex: "major",
-      key: "major",
-    },
-    {
-      title: "入学年份",
-      dataIndex: "years",
-      key: "years",
-    },
-  ];
-
+  const [columns, setColumns] = React.useState([]);
   const [list, setList] = React.useState([]);
   const [selectedList, setSelectedList] = React.useState([]);
-
-  async function fetchData() {
-    const fetchResp = await fetch("http://localhost:3000/index.php");
-    const res = await fetchResp.json();
-    setList(res);
-  }
+  const [type, setType] = React.useState();
+  const [options, setOptions] = React.useState([]);
 
   React.useEffect(() => {
+
+    fetch(`${apiWritePath}getinf/getTableInfo/getData`).then(res => {
+      res.json().then(data => {
+        setOptions(data)
+      })
+    })
+  }, [])
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const fetchResp = await fetch(
+        `${apiWritePath}getinf/getTableInfo/getData?type=1&tableName=` + type
+      );
+      const res = await fetchResp.json();
+      setColumns(res.columns);
+      setList(res.list);
+    }
     fetchData();
-  }, []);
+  }, [type]);
 
   return (
     <div
@@ -54,6 +36,18 @@ function RenderTable() {
         padding: 20,
       }}
     >
+      <div style={{ padding: "10px 0", textAlign: "left" }}>
+        <Select
+          defaultValue={type}
+          style={{ width: 120 }}
+          onChange={(v) => {
+            setType(v);
+            setSelectedList([]);
+          }}
+          options={options}
+        />
+      </div>
+
       <Table
         rowSelection={{
           type: "checkbox",
@@ -73,28 +67,21 @@ function RenderTable() {
           marginTop: 20,
         }}
         onClick={async () => {
-          const renderData = [
-            "学生学号",
-            "学生姓名",
-            "学生年龄",
-            "学生性别",
-            "学生专业",
-            "入学年份",
-          ];
+          columns.map((item) => item.title);
+
+          const renderData = columns.map((item) => item.title);
+
           selectedList.forEach((item) => {
-            renderData.push(item.id);
-            renderData.push(item.name);
-            renderData.push(item.age);
-            renderData.push(item.sex);
-            renderData.push(item.major);
-            renderData.push(item.years);
+            columns.forEach((i2) => {
+              renderData.push(item[i2.dataIndex]);
+            });
           });
 
           const wpsApp = wps.WpsApplication();
           let table = wpsApp.ActiveDocument.Tables.Add(
             wpsApp.Selection.Range,
-            renderData.length / 6,
-            6
+            renderData.length / columns.length,
+            columns.length
           );
           let duoShaoGe = table.Range.Cells.Count;
           for (let i = 1; i < duoShaoGe + 1; i++) {
@@ -102,7 +89,7 @@ function RenderTable() {
           }
         }}
       >
-        插入表格
+        表格插入
       </Button>
     </div>
   );

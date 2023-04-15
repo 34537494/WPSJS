@@ -3,8 +3,6 @@ import { apiWritePath } from "../../../../settings";
 import { Result } from "antd";
 /* global wps:false */
 export const UploadXml = {
-  handleSuccess: null,
-  handleFiled: null,
   head: new Array(),
   level: new Array(),
   xml: new Array(),
@@ -35,8 +33,8 @@ export const UploadXml = {
     this.CreateJsonStr(this.head, this.level, keyIndex);
     console.log("strJson:" + this.strJson);
     console.log("this.head" + this.head);
-    await this.PostXml(keyIndex);
     console.log("textpart:" + this.textpart);
+    return await this.PostXml(keyIndex);
     // var bArr = new TextEncoder().encode(xmlStr);
   },
   PostXml: async function (keyIndex) {
@@ -78,14 +76,13 @@ export const UploadXml = {
 
     var xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
-    var _that = this;
     xhr.addEventListener("readystatechange", function () {
       if (this.readyState === 4 && this.status === 200) {
         var res = JSON.parse(this.responseText);
         if (res.success) {
-          _that.handleSuccess();
+          return true;
         } else {
-          _that.handleFiled();
+          return false;
         }
       }
     });

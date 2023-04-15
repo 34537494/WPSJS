@@ -30,6 +30,20 @@ function ShowWriterPane(wps){
         tskpane.Visible = !tskpane.Visible
     }
 }
+function ShowQuestionBankPane(wps){
+    let tsId = wps.PluginStorage.getItem("QuestionBank_id")
+    if (!tsId) {
+        let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "QuestionBank")
+        let id = tskpane.ID
+        console.log("ShowQuestionBankPane",tskpane)
+        console.log("ShowQuestionBankPane",Util.GetUrlPath()+ "QuestionBank")
+        wps.PluginStorage.setItem("QuestionBank_id", id)
+        tskpane.Visible = true
+    } else {
+        let tskpane = wps.GetTaskPane(tsId)
+        tskpane.Visible = !tskpane.Visible
+    }
+}
 var ribbon = {
     //这个函数在整个wps加载项中是第一个执行的
     OnAddinLoad: function(ribbonUI) {
@@ -93,6 +107,9 @@ var ribbon = {
             case "btnShowWriter":
                 ShowWriterPane(wps)
                  break
+            case "btnShowQuestionBank":
+                ShowQuestionBankPane(wps)
+                break
 /*
             case "btnApiEvent":
                 {
@@ -126,12 +143,14 @@ var ribbon = {
     GetImage: function (control) {
         const eleId = control.Id
         switch (eleId) {
-            case "btnShowMsg":
-                return "images/1.svg"
-            case "btnShowDialog":
-                return "images/2.svg"
-            case "btnShowTaskPane":
-                return "images/3.svg"
+            // case "btnShowMsg":
+            //     return "images/1.svg"
+            // case "btnShowDialog":
+            //     return "images/2.svg"
+            // case "btnShowTaskPane":
+            //     return "images/3.svg"
+            case "btnShowQuestionBank":
+                return "images/questionbank.svg"
             case "btnShowWriter":
                 return "images/2.svg"
             case "btnShowComposer":

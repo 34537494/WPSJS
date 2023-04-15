@@ -9,6 +9,9 @@
                 <group id="ComposeGroup" label="排版">
                     <button id="btnShowComposer" label="集成排版" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
 				</group>
+                <group id="ComposeGroup" label="题库">
+                    <button id="btnShowQuestionBank" label="题库管理" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
+				</group>
                 <!--
                  <button id="btnShowMsg" label="弹出消息框" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="btnIsEnbable" getLabel="ribbon.OnGetLabel" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>

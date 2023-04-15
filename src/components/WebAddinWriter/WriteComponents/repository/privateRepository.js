@@ -9,13 +9,13 @@ import { apiWritePath } from "../../../../settings";
 import FileUpload from "./fileUpload";
 /* global wps:false */
 
-var checkedIDs = [];
 export class PrivateRepository extends Component {
   constructor() {
     super();
     this.state = {
       treeData: [],
       partFlag: 0,
+      checkedIDs: [],
     };
     this.reloaddata();
   }
@@ -44,19 +44,20 @@ export class PrivateRepository extends Component {
         }
         //console.log("logout_ok:",this.state)
       },
-      (error) => {}
+      (error) => { }
     );
   };
-  insertdata = () => {
+  insertdata = async () => {
+    var checkedIDs = this.state.checkedIDs.reverse();
     console.log("checkedIDs bef:", checkedIDs);
     for (var id in checkedIDs) {
       // console.log("id:", id);
-      // console.log("checkedIDs[id]:", checkedIDs[id]);
+      console.log("checkedIDs[id]:", checkedIDs[id]);
       var data = {};
       data.公司ID = 1;
       data.文本元编号 = checkedIDs[id];
       const CurWord = wps.WpsApplication();
-      handlePost(
+      await handlePost(
         `${apiWritePath}download/downloadTextRepositoryXml`,
         data
       ).then(
@@ -65,10 +66,10 @@ export class PrivateRepository extends Component {
           //  console.log("get-Repository-tree-result:", result);
           if (result.success === true) {
             //插入数据到wps中
-            console.log(
-              "result.msg:",
-              Buffer.from(result.msg, "base64").toString("utf-8")
-            );
+            // console.log(
+            //   "result.msg:",
+            //   Buffer.from(result.msg, "base64").toString("utf-8")
+            // );
             CurWord.ActiveDocument.Range(
               CurWord.Selection.Start,
               CurWord.Selection.End
@@ -78,13 +79,15 @@ export class PrivateRepository extends Component {
           }
           //console.log("logout_ok:",this.state)
         },
-        (error) => {}
+        (error) => { }
       );
     }
   };
   onCheck = (checkedKeys, info) => {
     console.log("onCheck", checkedKeys, info);
-    checkedIDs = checkedKeys;
+    this.setState({
+      checkedIDs: checkedKeys
+    })
   };
   changePart = () => {
     this.setState((prevState, props) => {
@@ -97,7 +100,7 @@ export class PrivateRepository extends Component {
   render() {
     return (
       <>
-        {this.state.partFlag == 0 ? (
+        {this.state.partFlag === 0 ? (
           <Treeshow
             treeData={this.state.treeData}
             changeHandler={this.changePart}

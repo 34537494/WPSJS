@@ -4,28 +4,20 @@ import Button from "antd/es/button"
 import { FormOutlined } from "@ant-design/icons";
 /* global wps:false */
 
-
-// console.log(td.innerHTML);
-
-// var para1 = document.querySelector("#p1");
-// var para2 = document.querySelector("#p2");
-// var para3 = document.querySelector("#p3");
-// var para4 = document.querySelector("#p4");
-// var para5 = document.querySelector("#p5");
 // var td = document.getElementById('container123');
 // var myselect = document.querySelector("#addlines");
 
 var flag = '0';
 
- // 是否开启尺寸修改
+//  是否开启尺寸修改
  let resizeable = false
- // 鼠标按下时的坐标，并在修改尺寸时保存上一个鼠标的位置
+//  鼠标按下时的坐标，并在修改尺寸时保存上一个鼠标的位置
  let clientX, clientY
- // div可修改的最小宽高
+//  div可修改的最小宽高
  let minW = 8, minH = 8
- // 鼠标按下时的位置，使用n、s、w、e表示
+//  鼠标按下时的位置，使用n、s、w、e表示
  let direc = ''
-
+ 
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -34,9 +26,6 @@ class Header extends Component {
         textValue: ["1", "1", "1", "1", "1"],
         selectId: 0,
     };
-
-    console.log("finace table ini:",this.state)
-
   }
   addlines(state) {     //添加事件
     var td = document.getElementById('container123');
@@ -44,9 +33,7 @@ class Header extends Component {
     console.log(td);
     this.setState({selectId:document.getElementById('addlines').value})
     var index = document.getElementById('addlines').value;
-    console.log("哈哈哈哈哈哈哈");
     console.log(state.selectId);
-    // var index = myselect.selectedIndex;
     td.innerHTML = '';
     if (index == "1") {
       flag = '1'
@@ -416,55 +403,61 @@ class Header extends Component {
   }
   // 鼠标拖动改变大小
   //需要调整尺寸的div
-  // let c = document.getElementById('container')
-  // body监听移动事件
-  // document.getElementById('body').addEventListener('mousemove', move)
-  // 鼠标按下事件
-  // td.addEventListener('mousedown', down)
-  // 鼠标松开事件
-  // document.getElementById('body').addEventListener('mouseup', up)
-  
- 
-  
-  // 鼠标松开时结束尺寸修改
-  up(td) {
+  changeSize = () => {
+    // console.log("this.state",this.state)
+    var td = document.getElementById('container123');
+    var that = this
+
+      // 鼠标松开时结束尺寸修改
+  function up() {
+    console.log("this.state",that.state)
+
+    var td = document.getElementById('container123');
     resizeable = false
     // console.log(td.innerHTML)
     if (td.innerHTML == '') {
       console.log(flag)
       if (flag == "1") {
-        this.addOneLine(td);
+        that.addOneLine(td);
+        console.log("td.innerHTML",td.innerHTML)
+
         // this.synchronize1("text1",td);
         // this.synchronize2("text2",td);
       }
       if (flag == "2") {
-        this.addTwoLine1(td);
-        this.reset_text("block", "block", "block", "none", "none");
-        this.clearAll();
+        that.addTwoLine1(td);
+        that.reset_text("block", "block", "block", "none", "none");
+        that.clearAll();
       }
       if (flag == "3") {
-        this.addTwoLine2(td);
-        this.reset_text("block", "block", "block", "none", "none");
-        this.clearAll();
+        that.addTwoLine2(td);
+        that.reset_text("block", "block", "block", "none", "none");
+        that.clearAll();
       }
       if (flag == "4") {
-        this.addThreeLine(td);
-        this.reset_text("block", "block", "block", "block", "none");
-        this.clearAll();
+        that.addThreeLine(td);
+        that.reset_text("block", "block", "block", "block", "none");
+        that.clearAll();
       }
       if (flag == "5") {
-        this.reset_text("block", "block", "block", "block", "block");
-        this.clearAll();
+        that.reset_text("block", "block", "block", "block", "block");
+        that.clearAll();
       }
+
     }
   
   
   }
   
   // 鼠标按下时开启尺寸修改
-  down(e,td) {
+  function down(e) {
+    var td = document.getElementById('container123');
+    // console.log("hhhhhhhh");
+    // console.log(td);
+    // console.log("hhhhhhhh");
     td.innerHTML = ''
-    let d = this.getDirection(e)
+    let d = getDirection(e,td);
+    console.log(d);
     // 当位置为四个边和四个角时才开启尺寸修改
     if (d !== '') {
       resizeable = true
@@ -475,8 +468,9 @@ class Header extends Component {
   }
   
   // 鼠标移动事件
-  move(e,td) {
-    let d = this.getDirection(e)
+  function move(e) {
+    var td = document.getElementById('container123');
+    let d = getDirection(e,td)
     let cursor
     if (d === '') cursor = 'default';
     else cursor = d + '-resize';
@@ -486,7 +480,12 @@ class Header extends Component {
     if (resizeable) {
       // 鼠标按下的位置在右边，修改宽度
       if (direc.indexOf('e') !== -1) {
-        td.style.width = Math.max(minW, td.offsetWidth + (e.clientX - clientX)) + 'px'
+        // console.log("width1",minW,e.clientX , clientX,td.style.width)
+        // td.style.width = Math.max(minW, td.offsetWidth + (e.clientX - clientX)) + 'px'
+        td.style.width = '300px'
+        console.log(td.style.width)
+        // console.log("width2",minW, td.offsetWidth + (e.clientX - clientX),td.style.width)
+
         clientX = e.clientX
       }
   
@@ -511,7 +510,10 @@ class Header extends Component {
   }
   
   // 获取鼠标所在div的位置
-  getDirection(ev,td) {
+  function getDirection(ev,td) {
+    // console.log("hhhhhhhhh");
+    // console.log(ev);
+    // console.log(td);
     let xP, yP, offset, dir;
     dir = '';
     xP = ev.offsetX;
@@ -524,6 +526,16 @@ class Header extends Component {
   
     return dir;
   }
+      // body监听移动事件
+    document.body.addEventListener('mousemove', move)
+  // 鼠标按下事件
+    td.addEventListener('mousedown', down)
+  // 鼠标松开事件
+    document.body.addEventListener('mouseup', up)
+    
+  }
+
+
   test1=(e)=> {
     var textValue = this.state.textValue
     textValue[0] = e.target.value
@@ -566,8 +578,8 @@ class Header extends Component {
           <div style={{height:"50px"}}></div>
           <table style={{margin:"auto"}} border="1" cellSpacing="0" height="100px" width="100px">
             <tbody>
-              <tr style={{ position: "relative" }}>
-                <td id="container123"></td>
+              <tr style={{ position: "relative"}} width="100px">
+                <td id="container123" onMouseMove={this.changeSize}></td>
               </tr>
             </tbody>
           </table>
